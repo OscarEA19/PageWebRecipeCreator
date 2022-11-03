@@ -54,7 +54,6 @@ public class LoginController implements Serializable {
 
     }
     
-    //maneja el request, la ruta es la pagina donde queremos ir
     public void redireccionar(String ruta) {
         HttpServletRequest request;
         try {

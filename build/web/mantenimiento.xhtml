@@ -9,11 +9,10 @@
     <h:head>
         <title>Mantenimiento</title>
     </h:head>
-    <h:body>
-        <h1>Bienvenido #{loginController.usuarioTO.nombre} #{loginController.usuarioTO.apellido}</h1>        
+    <h:body style = "background-image: url('resources/images/image.jpg')">
+        <h1 style="text-align: center">Bienvenido #{loginController.usuarioTO.username}</h1>        
 
         <h:form id="form">
-
             <p:tabMenu activeIndex="#{param.i}">
                 <p:menuitem value="Inicio" outcome="home" icon="pi pi-fw pi-home">
                     <f:param name="i" value="0"/>
