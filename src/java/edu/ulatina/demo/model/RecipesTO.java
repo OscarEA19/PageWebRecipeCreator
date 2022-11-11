@@ -10,16 +10,31 @@ package edu.ulatina.demo.model;
  */
 public class RecipesTO {
     
+    private Integer id;
     private String title;
     private String description;
     private String username;
     private String imgPath;
+    
 
     public RecipesTO() {
     }
-    
+
+    public RecipesTO(String title, String description, String imgPath) {
+        this.title = title;
+        this.description = description;
+        this.imgPath = imgPath;
+    }
     
 
+    public RecipesTO(Integer id, String title, String description, String username, String imgPath) {
+        this.id = id;
+        this.title = title;
+        this.description = description;
+        this.username = username;
+        this.imgPath = imgPath;
+    }
+    
     public String getTitle() {
         return title;
     }
@@ -50,6 +65,14 @@ public class RecipesTO {
 
     public void setImgPath(String imgPath) {
         this.imgPath = imgPath;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
     
     

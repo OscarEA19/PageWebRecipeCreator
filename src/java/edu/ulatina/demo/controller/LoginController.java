@@ -5,15 +5,17 @@
  */
 package edu.ulatina.demo.controller;
 
+import edu.ulatina.demo.model.RecipesTO;
 import edu.ulatina.demo.model.UserTO;
-import edu.ulatina.demo.service.ServicioUsuario;
+import edu.ulatina.demo.service.ServicesRecipes;
+import edu.ulatina.demo.service.ServicesUser;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped; 
+import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletRequest;
 
@@ -21,7 +23,6 @@ import javax.servlet.http.HttpServletRequest;
  *
  * @author usuario
  */
-//anotaciones
 @ManagedBean(name = "loginController")
 @SessionScoped
 public class LoginController implements Serializable {
@@ -30,7 +31,8 @@ public class LoginController implements Serializable {
     private String password;
     private UserTO usuarioTO = new UserTO();
     private List<UserTO> listUser = new ArrayList<>();
-
+    private List<RecipesTO> listRecipes = new ArrayList<>();
+    private List<RecipesTO> myListRecipes = new ArrayList<>();
 
     public LoginController() {
     }
@@ -43,18 +45,34 @@ public class LoginController implements Serializable {
     public void ingresar() {
         System.out.println("Username: " + this.username);
         System.out.println("Password: " + this.password);
-        ServicioUsuario servicioUsuario = new ServicioUsuario();
-        this.usuarioTO=servicioUsuario.validarDB(this.username, this.password);
+        ServicesUser servicioUsuario = new ServicesUser();
+        ServicesRecipes servicioRecipes = new ServicesRecipes();
+        CrudRecipes crudRecipes = new CrudRecipes();
+        crudRecipes.setUserTO(this.usuarioTO);
+        this.usuarioTO = servicioUsuario.validarDB(this.username, this.password);
         if (Objects.nonNull(this.usuarioTO)) {
-            this.listUser =  servicioUsuario.listUser();
+            this.listUser = servicioUsuario.listUser();
+            this.listRecipes = servicioRecipes.listAllRecipes();
+            this.myListRecipes = servicioRecipes.listRecipesByUser(usuarioTO);
             this.redireccionar("/faces/home.xhtml");
         } else {
             FacesContext.getCurrentInstance().addMessage("sticky-key", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Login Failed", "The username and password are invalid"));
         }
+    }
+   
 
+    public void goingToLogin() {
+        if (Objects.nonNull(this.usuarioTO)) {
+            ServicesUser servicioUsuario = new ServicesUser();
+            this.listUser = servicioUsuario.listUser();
+            this.redireccionar("/");
+        } else {
+            FacesContext.getCurrentInstance().addMessage("sticky-key", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Login Failed", "The username and password are invalid"));
+        }
     }
     
-    public void redireccionar(String ruta) {
+
+    public static void redireccionar(String ruta) {
         HttpServletRequest request;
         try {
             request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
@@ -70,10 +88,7 @@ public class LoginController implements Serializable {
     public void setUsuarioTO(UserTO usuarioTO) {
         this.usuarioTO = usuarioTO;
     }
-    
-    
-    
-    
+
     public String getUsername() {
         return username;
     }
@@ -98,5 +113,21 @@ public class LoginController implements Serializable {
         this.listUser = listUser;
     }
 
+    public List<RecipesTO> getListRecipes() {
+        return listRecipes;
+    }
+
+    public void setListRecipes(List<RecipesTO> listRecipes) {
+        this.listRecipes = listRecipes;
+    }
+
+    public List<RecipesTO> getMyListRecipes() {
+        return myListRecipes;
+    }
+
+    public void setMyListRecipes(List<RecipesTO> myListRecipes) {
+        this.myListRecipes = myListRecipes;
+    }
     
+
 }
