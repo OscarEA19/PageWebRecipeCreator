@@ -4,6 +4,8 @@
  */
 package edu.ulatina.demo.model;
 
+import java.util.List;
+
 /**
  *
  * @author Espin
@@ -74,7 +76,5 @@ public class RecipesTO {
     public void setId(Integer id) {
         this.id = id;
     }
-    
-    
     
 }

@@ -5,6 +5,8 @@
  */
 package edu.ulatina.demo.service;
 
+import edu.ulatina.demo.model.IngredienteTO;
+import edu.ulatina.demo.model.PreparacionTO;
 import edu.ulatina.demo.model.RecipesTO;
 import edu.ulatina.demo.model.UserTO;
 import java.sql.Date;
@@ -97,6 +99,63 @@ public class ServicesRecipes extends Services {
             pstm.setString(2, description);
             pstm.setString(3, img);
             pstm.setString(4, usename);
+            
+            pstm.execute();
+           return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        } finally {
+            closeResultSet(rs);
+            closeStatement(pstm);
+            desconect();
+        }
+    }
+    public boolean insertIngredientes(IngredienteTO ingredienteTO) {
+
+        String ingrediente = ingredienteTO.getIngrediente();
+        String username = ingredienteTO.getUsername();
+        String titulo = ingredienteTO.getTitulo();
+        
+        PreparedStatement pstm = null;
+        ResultSet rs = null;
+
+        try {
+            connection();
+            String sql = "insert into ingredientes (ingrediente, username, titulo) values (?, ?, ?)";
+            pstm = conn.prepareStatement(sql);
+            pstm.setString(1, ingrediente);
+            pstm.setString(2, username);
+            pstm.setString(3, titulo);
+            
+            pstm.execute();
+           return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        } finally {
+            closeResultSet(rs);
+            closeStatement(pstm);
+            desconect();
+        }
+    }
+    
+    public boolean insertPreparaciones(PreparacionTO preparacionTO) {
+
+        String paso = preparacionTO.getPaso();
+        String titulo = preparacionTO.getTitulo();
+        String username = preparacionTO.getUsername();
+        
+        PreparedStatement pstm = null;
+        ResultSet rs = null;
+
+        try {
+            connection();
+            String sql = "insert into preparacion (paso, titulo, username) values (?, ?, ?";
+            pstm = conn.prepareStatement(sql);
+            pstm.setString(1, paso);
+            pstm.setString(2, titulo);
+            pstm.setString(3, username);
             
             pstm.execute();
            return true;

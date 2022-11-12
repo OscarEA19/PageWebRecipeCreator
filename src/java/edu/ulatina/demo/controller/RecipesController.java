@@ -8,16 +8,11 @@ package edu.ulatina.demo.controller;
 import edu.ulatina.demo.model.RecipesTO;
 import edu.ulatina.demo.model.UserTO;
 import edu.ulatina.demo.service.ServicesRecipes;
-import edu.ulatina.demo.service.ServicesUser;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
-import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped; 
-import javax.faces.context.FacesContext;
-import javax.servlet.http.HttpServletRequest;
 
 /**
  *
@@ -29,18 +24,20 @@ public class RecipesController implements Serializable {
 
     
     private RecipesTO recipesTO = new RecipesTO();
-    private UserTO userTO = new UserTO();
     private List<RecipesTO> recipesList = new ArrayList<>();
     public ServicesRecipes servicesRecipes = new ServicesRecipes();
+    private String ingrediente;
+    private String preparacion;
+    private List<String> ingredientes;
+    private List<String> preparaciones;
 
 
 
     public RecipesController() {
+        this.ingredientes =  new ArrayList<>();
+        this.preparaciones = new ArrayList<>();
     }
     
-     public RecipesController(UserTO userTO) {
-         this.userTO =  userTO;
-    }
     
     
     public void showAllRecipes() {
@@ -64,12 +61,52 @@ public class RecipesController implements Serializable {
         this.recipesList = recipesList;
     }
 
-    public UserTO getUserTO() {
-        return userTO;
+    public ServicesRecipes getServicesRecipes() {
+        return servicesRecipes;
     }
 
-    public void setUserTO(UserTO userTO) {
-        this.userTO = userTO;
+    public void setServicesRecipes(ServicesRecipes servicesRecipes) {
+        this.servicesRecipes = servicesRecipes;
+    }
+
+    public List<String> getPreparaciones() {
+        return preparaciones;
+    }
+
+    public void setPreparaciones(List<String> preparaciones) {
+        this.preparaciones = preparaciones;
+    }
+    
+    public void addPreparacion(String preparacion){
+        this.preparaciones.add(preparacion);
+    }
+    
+    public void addIngredientes(String ingrediente){
+        this.ingredientes.add(ingrediente);
+    }
+
+    public String getIngrediente() {
+        return ingrediente;
+    }
+
+    public void setIngrediente(String ingrediente) {
+        this.ingrediente = ingrediente;
+    }
+
+    public String getPreparacion() {
+        return preparacion;
+    }
+
+    public void setPreparacion(String preparacion) {
+        this.preparacion = preparacion;
+    }
+
+    public List<String> getIngredientes() {
+        return ingredientes;
+    }
+
+    public void setIngredientes(List<String> ingredientes) {
+        this.ingredientes = ingredientes;
     }
     
     

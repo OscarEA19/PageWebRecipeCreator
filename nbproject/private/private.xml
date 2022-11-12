@@ -5,6 +5,7 @@
         <group>
             <file>file:/C:/Users/Espin/OneDrive/Documents/NetBeansProjects/proyectoProgra4/src/java/edu/ulatina/demo/service/Services.java</file>
             <file>file:/C:/Users/Espin/OneDrive/Documents/NetBeansProjects/proyectoProgra4/src/java/edu/ulatina/demo/model/RecipesTO.java</file>
+            <file>file:/C:/Users/Espin/OneDrive/Documents/NetBeansProjects/proyectoProgra4/src/java/edu/ulatina/demo/model/IngredienteTO.java</file>
             <file>file:/C:/Users/Espin/OneDrive/Documents/NetBeansProjects/proyectoProgra4/web/mantenimientoRecetas.xhtml</file>
             <file>file:/C:/Users/Espin/OneDrive/Documents/NetBeansProjects/proyectoProgra4/src/java/edu/ulatina/demo/service/ServicesRecipes.java</file>
             <file>file:/C:/Users/Espin/OneDrive/Documents/NetBeansProjects/proyectoProgra4/web/index.xhtml</file>
@@ -14,6 +15,7 @@
             <file>file:/C:/Users/Espin/OneDrive/Documents/NetBeansProjects/proyectoProgra4/src/java/Utils/ValidationUtils.java</file>
             <file>file:/C:/Users/Espin/OneDrive/Documents/NetBeansProjects/proyectoProgra4/web/home.xhtml</file>
             <file>file:/C:/Users/Espin/OneDrive/Documents/NetBeansProjects/proyectoProgra4/src/java/edu/ulatina/demo/controller/CrudRecipes.java</file>
+            <file>file:/C:/Users/Espin/OneDrive/Documents/NetBeansProjects/proyectoProgra4/src/java/edu/ulatina/demo/model/PreparacionTO.java</file>
             <file>file:/C:/Users/Espin/OneDrive/Documents/NetBeansProjects/proyectoProgra4/src/java/edu/ulatina/demo/model/UserTO.java</file>
             <file>file:/C:/Users/Espin/OneDrive/Documents/NetBeansProjects/proyectoProgra4/src/java/edu/ulatina/demo/controller/LoginController.java</file>
         </group>

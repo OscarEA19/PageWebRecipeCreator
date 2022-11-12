@@ -47,8 +47,6 @@ public class LoginController implements Serializable {
         System.out.println("Password: " + this.password);
         ServicesUser servicioUsuario = new ServicesUser();
         ServicesRecipes servicioRecipes = new ServicesRecipes();
-        CrudRecipes crudRecipes = new CrudRecipes();
-        crudRecipes.setUserTO(this.usuarioTO);
         this.usuarioTO = servicioUsuario.validarDB(this.username, this.password);
         if (Objects.nonNull(this.usuarioTO)) {
             this.listUser = servicioUsuario.listUser();

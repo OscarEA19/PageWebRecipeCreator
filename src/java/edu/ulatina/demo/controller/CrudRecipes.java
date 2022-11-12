@@ -5,6 +5,8 @@
 package edu.ulatina.demo.controller;
 
 import Utils.ValidationUtils;
+import edu.ulatina.demo.model.IngredienteTO;
+import edu.ulatina.demo.model.PreparacionTO;
 import edu.ulatina.demo.model.RecipesTO;
 import edu.ulatina.demo.model.UserTO;
 import edu.ulatina.demo.service.ServicesRecipes;
@@ -27,7 +29,6 @@ import org.primefaces.PrimeFaces;
 public class CrudRecipes {
 
     private RecipesTO recipesTO;
-    private UserTO userTO;
     private List<RecipesTO> myRecipesList = new ArrayList<>();
 
     public CrudRecipes() {
@@ -42,16 +43,40 @@ public class CrudRecipes {
 
     }
 
-    public void save() {
-        String username = this.userTO.getUsername();
-        ServicesRecipes servicesRecipes = new ServicesRecipes();
+    public void save(String username, List<String> ingredientes, List<String> preparaciones, String title) {
+        try {
+            ServicesRecipes servicesRecipes = new ServicesRecipes();
 
-        this.userTO.setUsername(username);
-        if (servicesRecipes.insert(this.recipesTO)) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("User Added Success"));
+            //Iniciando insert a la tabla de ingredientes
+            for (String ingrediente : ingredientes) {
+                servicesRecipes.insertIngredientes(new IngredienteTO(ingrediente,username,title));
+            }
 
+            //Iniciando insert a la tabla de preparaciones
+            for (String paso : preparaciones) {
+                servicesRecipes.insertPreparaciones(new PreparacionTO(paso,title,username));
+            }
+
+            ingredientes.forEach(ingrediente -> {
+                System.out.println(ingrediente);
+            });
+            preparaciones.forEach(prepa -> {
+                System.out.println(prepa);
+            });
+
+            recipesTO.setUsername(username);
+            if (servicesRecipes.insert(this.recipesTO)) {
+                LoginController loginController = new LoginController();
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Recipe Added Success"));
+            } else {
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Recipe Added Failed, please try again"));
+            }
+            PrimeFaces.current().executeScript("PF('manageProductDialog').hide()");
+            PrimeFaces.current().ajax().update("form:messages", "form:dt-products");
+
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-
     }
 
     public void delete() {
@@ -74,14 +99,6 @@ public class CrudRecipes {
 
     public void setMyRecipesList(List<RecipesTO> myRecipesList) {
         this.myRecipesList = myRecipesList;
-    }
-
-    public UserTO getUserTO() {
-        return userTO;
-    }
-
-    public void setUserTO(UserTO userTO) {
-        this.userTO = userTO;
     }
 
 }
