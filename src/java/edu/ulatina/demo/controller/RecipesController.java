@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped; 
+import org.primefaces.model.file.UploadedFile;
 
 /**
  *
@@ -30,6 +31,7 @@ public class RecipesController implements Serializable {
     private String preparacion;
     private List<String> ingredientes;
     private List<String> preparaciones;
+    private UploadedFile file;
 
 
 
@@ -107,6 +109,14 @@ public class RecipesController implements Serializable {
 
     public void setIngredientes(List<String> ingredientes) {
         this.ingredientes = ingredientes;
+    }
+
+    public UploadedFile getFile() {
+        return file;
+    }
+
+    public void setFile(UploadedFile file) {
+        this.file = file;
     }
     
     

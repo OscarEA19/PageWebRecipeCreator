@@ -11,14 +11,21 @@ import edu.ulatina.demo.model.RecipesTO;
 import edu.ulatina.demo.model.UserTO;
 import edu.ulatina.demo.service.ServicesRecipes;
 import edu.ulatina.demo.service.ServicesUser;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
+import javax.imageio.ImageIO;
 import org.apache.el.util.Validation;
 import org.primefaces.PrimeFaces;
+import org.primefaces.model.file.UploadedFile;
 
 /**
  *
@@ -43,28 +50,31 @@ public class CrudRecipes {
 
     }
 
-    public void save(String username, List<String> ingredientes, List<String> preparaciones, String title) {
+    public void save(String username, List<String> ingredientes, List<String> preparaciones, String title, UploadedFile file) {
         try {
             ServicesRecipes servicesRecipes = new ServicesRecipes();
 
+            //First get image and save at resorces/images/fileName.format
+            
+            String fileName = file.getFileName();
+            byte[] image = file.getContent();
+
+            ByteArrayInputStream bis = new ByteArrayInputStream(image);
+            BufferedImage saveImage = ImageIO.read(bis);
+            ImageIO.write(saveImage, "jpg", new File(""+fileName+".jpg"));
+            System.out.println("Image generated from the byte array.");
+
             //Iniciando insert a la tabla de ingredientes
             for (String ingrediente : ingredientes) {
-                servicesRecipes.insertIngredientes(new IngredienteTO(ingrediente,username,title));
+                servicesRecipes.insertIngredientes(new IngredienteTO(ingrediente, username, title));
             }
 
             //Iniciando insert a la tabla de preparaciones
             for (String paso : preparaciones) {
-                servicesRecipes.insertPreparaciones(new PreparacionTO(paso,title,username));
+                servicesRecipes.insertPreparaciones(new PreparacionTO(paso, title, username));
             }
-
-            ingredientes.forEach(ingrediente -> {
-                System.out.println(ingrediente);
-            });
-            preparaciones.forEach(prepa -> {
-                System.out.println(prepa);
-            });
-
             recipesTO.setUsername(username);
+            recipesTO.setImgPath(fileName);
             if (servicesRecipes.insert(this.recipesTO)) {
                 LoginController loginController = new LoginController();
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Recipe Added Success"));

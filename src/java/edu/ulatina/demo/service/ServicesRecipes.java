@@ -93,7 +93,7 @@ public class ServicesRecipes extends Services {
 
         try {
             connection();
-            String sql = "insert into recetas (titulo, description, img, username) values (?, ?, ?, ?)";
+            String sql = "insert into recetas (titulo, description, img, username,status) values (?, ?, ?, ?, true)";
             pstm = conn.prepareStatement(sql);
             pstm.setString(1, titulo);
             pstm.setString(2, description);
@@ -151,7 +151,7 @@ public class ServicesRecipes extends Services {
 
         try {
             connection();
-            String sql = "insert into preparacion (paso, titulo, username) values (?, ?, ?";
+            String sql = "insert into preparacion (paso, titulo, username) values (?, ?, ?)";
             pstm = conn.prepareStatement(sql);
             pstm.setString(1, paso);
             pstm.setString(2, titulo);
