@@ -13,16 +13,16 @@
     <h:body style = "background-image: url('resources/images/image.jpg')">
         <h:form id="form">
             <p:tabMenu activeIndex="#{param.i}">
-                <p:menuitem value="Home" outcome="home" icon="pi pi-fw pi-home">
+                <p:menuitem value="Inicio" outcome="home" icon="pi pi-fw pi-home">
                     <f:param name="i" value="0"/>
                 </p:menuitem>
-                <p:menuitem value="Mantenimiento de mis Recetas" outcome="mantenimientoRecetas" icon="pi pi-fw pi-user-edit">
+                <p:menuitem value="Mantenimiento de mis Recetas" outcome="mantenimientoRecetas" icon="pi pi-fw pi-book">
                     <f:param name="i" value="1"/>
                 </p:menuitem>
-                <p:menuitem value="Mantenimiento de Usuarios" outcome="mantenimientoRecetas" icon="pi pi-fw pi-user-edit">
+                <p:menuitem value="Mantenimiento de Usuarios" outcome="mantenimientoPersona" icon="pi pi-fw pi-user-edit">
                     <f:param name="i" value="1"/>
                 </p:menuitem>
-                <p:menuitem value="Salir" outcome="index" icon="pi pi-fw pi-sign-in">
+                <p:menuitem value="Salir" actionListener="#{loginController.goingToLogin()}" icon="pi pi-fw pi-sign-in">
                     <f:param name="i" value="2"/>
                 </p:menuitem>
             </p:tabMenu>
@@ -30,7 +30,7 @@
             <p:growl id="messages" showDetail="true" />
             <p:toolbar> 
                 <p:toolbarGroup>
-                    <p:commandButton value="New" icon="pi pi-plus" actionListener="#{crudRecipes.openNew()}"
+                    <p:commandButton value="Nueva Receta" icon="pi pi-plus" actionListener="#{crudRecipes.openNew()}"
                                      update=":dialogs:manage-product-content" oncomplete="PF('manageProductDialog').show()"
                                      styleClass="ui-button-success" style="margin-right: .5rem">
                         <p:resetInput target=":dialogs:manage-product-content" />
@@ -42,13 +42,13 @@
                          reflow="true" styleClass="products-table"  
                          rowKey="#{recipe.id}" paginator="true" rows="10" rowSelectMode="add" paginatorPosition="bottom">
 
-                <f:facet name="header">My recipes list</f:facet>
+                <f:facet name="header">Mi lista de recetas</f:facet>
 
-                <p:column headerText="id" >
+                <p:column headerText="Identificador" >
                     <h:outputText value="#{recipe.id}" />
                 </p:column>
 
-                <p:column headerText="imagen" >
+                <p:column headerText="Imagen" >
                     <h:graphicImage library="images" name="#{recipe.imgPath}" style="width: 70px; height: 70px"/>
                 </p:column>
 
@@ -60,7 +60,7 @@
                     <h:outputText value="#{recipe.description}" />
                 </p:column>
 
-                <p:column headerText="Created by:">
+                <p:column headerText="Creado por:">
                     <h:outputText value="#{recipe.username}" />
                 </p:column>
 
@@ -80,7 +80,7 @@
 
         <h:form id="dialogs">
             <p:growl id="messages" showDetail="true" />
-            <p:dialog header="Create Recipe" showEffect="fade" modal="true" widgetVar="manageProductDialog" responsive="true">
+            <p:dialog header="Crear Receta" showEffect="fade" modal="true" widgetVar="manageProductDialog" responsive="true">
                 <p:outputPanel id="manage-product-content" class="ui-fluid">
                     <p:outputPanel >
 
@@ -98,7 +98,7 @@
 
                         <div class="col-12 md:col-4" style="margin-top: 10px">
                             <div class="ui-inputgroup">
-                                <p:inputText placeholder="Ingrediente" value="#{recipesController.ingrediente}"/>
+                                <p:inputText placeholder="Ingredientes" id="inputs" value="#{recipesController.ingrediente}"/>
                                 <p:commandButton icon="pi pi-check" styleClass="ui-button-success" actionListener="#{recipesController.addIngredientes(recipesController.ingrediente)}"/>
                             </div>
                         </div>
@@ -107,7 +107,7 @@
 
                         <div class="col-12 md:col-4" style="margin-top: 10px">
                             <div class="ui-inputgroup">
-                                <p:inputText placeholder="Preparacion" value="#{recipesController.preparacion}"/>
+                                <p:inputText  placeholder="Preparación"  value="#{recipesController.preparacion}"/>
                                 <p:commandButton icon="pi pi-check" styleClass="ui-button-success" actionListener="#{recipesController.addPreparacion(recipesController.preparacion)}"/>
                             </div>
                         </div>
@@ -115,26 +115,34 @@
                         <div class="card">
                             <h5>Imagen de la receta</h5>
                             <h:form enctype="multipart/form-data">
-                                <p:fileUpload value="#{recipesController.file}" mode="simple" skinSimple="true"/>
+                                <p:fileUpload listener="#{recipesController.file}" mode="simple" skinSimple="true"/>
+                                <p:commandButton value="Cargar imagen" ajax="false" actionListener="#{recipesController.upload()}" styleClass="mt-3 ui-button-outlined block"/>
                             </h:form>
+
+                            <h:form enctype="multipart/form-data">
+                                <p:fileUpload value="#{fileUploadView.file}" mode="simple" skinSimple="true"/>
+
+                                <p:commandButton value="Submit" ajax="false" action="#{fileUploadView.upload}" styleClass="mt-3 ui-button-outlined block"/>
+                            </h:form>
+
                         </div>
 
                     </p:outputPanel>
                 </p:outputPanel>
                 <f:facet name="footer">
-                    <p:commandButton value="Save" icon="pi pi-check" actionListener="#{crudRecipes.save(loginController.username,recipesController.ingredientes,recipesController.preparaciones,crudRecipes.recipesTO.title,recipesController.file)}" update="manage-product-content" process="manage-product-content @this" />
-                    <p:commandButton value="Cancel" icon="pi pi-times" onclick="PF('manageProductDialog').hide()" class="ui-button-secondary" type="button" />
+                    <p:commandButton value="Guardar" icon="pi pi-check" actionListener="#{crudRecipes.save(loginController.username,recipesController.ingredientes,recipesController.preparaciones,crudRecipes.recipesTO.title)}" update="manage-product-content" process="manage-product-content @this" />
+                    <p:commandButton value="Cancelar" icon="pi pi-times" onclick="PF('manageProductDialog').hide()" class="ui-button-secondary" type="button" />
                 </f:facet>
             </p:dialog>
 
             <p:confirmDialog global="true" showEffect="fade" width="300">
-                <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="pi pi-check" />
+                <p:commandButton value="Si" type="button" styleClass="ui-confirmdialog-yes" icon="pi pi-check" />
                 <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no ui-button-secondary" icon="pi pi-times" />
             </p:confirmDialog>
 
             <p:confirmDialog widgetVar="deleteProductDialog" showEffect="fade" width="300"
-                             message="Delete the product?" header="Confirm" severity="warn">
-                <p:commandButton value="Yes" icon="pi pi-check" actionListener="#{crudView.delete}"
+                             message="Desea borrar la receta?" header="Confirmar" severity="warn">
+                <p:commandButton value="Si" icon="pi pi-check" actionListener="#{crudView.delete}"
                                  process="@this" 
                                  oncomplete="PF('deleteProductDialog').hide()" />
                 <p:commandButton value="No" type="button" styleClass="ui-button-secondary" icon="pi pi-times"

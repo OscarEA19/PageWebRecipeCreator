@@ -6,13 +6,12 @@
 package edu.ulatina.demo.controller;
 
 import edu.ulatina.demo.model.RecipesTO;
-import edu.ulatina.demo.model.UserTO;
 import edu.ulatina.demo.service.ServicesRecipes;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped; 
+import javax.faces.bean.SessionScoped;
 import org.primefaces.model.file.UploadedFile;
 
 /**
@@ -23,7 +22,6 @@ import org.primefaces.model.file.UploadedFile;
 @SessionScoped
 public class RecipesController implements Serializable {
 
-    
     private RecipesTO recipesTO = new RecipesTO();
     private List<RecipesTO> recipesList = new ArrayList<>();
     public ServicesRecipes servicesRecipes = new ServicesRecipes();
@@ -33,18 +31,14 @@ public class RecipesController implements Serializable {
     private List<String> preparaciones;
     private UploadedFile file;
 
-
-
     public RecipesController() {
-        this.ingredientes =  new ArrayList<>();
+        this.ingredientes = new ArrayList<>();
         this.preparaciones = new ArrayList<>();
     }
-    
-    
-    
+
     public void showAllRecipes() {
-        this.recipesList =  servicesRecipes.listAllRecipes();
-        
+        this.recipesList = servicesRecipes.listAllRecipes();
+
     }
 
     public RecipesTO getRecipesTO() {
@@ -78,12 +72,12 @@ public class RecipesController implements Serializable {
     public void setPreparaciones(List<String> preparaciones) {
         this.preparaciones = preparaciones;
     }
-    
-    public void addPreparacion(String preparacion){
+
+    public void addPreparacion(String preparacion) {
         this.preparaciones.add(preparacion);
     }
-    
-    public void addIngredientes(String ingrediente){
+
+    public void addIngredientes(String ingrediente) {
         this.ingredientes.add(ingrediente);
     }
 
@@ -112,12 +106,23 @@ public class RecipesController implements Serializable {
     }
 
     public UploadedFile getFile() {
+        System.out.println("se esta obteniendo el file");
         return file;
     }
 
     public void setFile(UploadedFile file) {
+        System.out.println("se esta guardando el file");
         this.file = file;
     }
-    
-    
+
+    public void upload() {
+
+        if (file != null) {
+            System.out.println("si");
+        } else {
+            System.out.println("no");
+
+        }
+
+    }
 }

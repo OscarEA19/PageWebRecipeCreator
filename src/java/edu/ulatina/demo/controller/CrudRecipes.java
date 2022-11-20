@@ -50,18 +50,17 @@ public class CrudRecipes {
 
     }
 
-    public void save(String username, List<String> ingredientes, List<String> preparaciones, String title, UploadedFile file) {
+    public void save(String username, List<String> ingredientes, List<String> preparaciones, String title) {
         try {
             ServicesRecipes servicesRecipes = new ServicesRecipes();
 
             //First get image and save at resorces/images/fileName.format
             
-            String fileName = file.getFileName();
-            byte[] image = file.getContent();
+            //byte[] image = file.getContent();
 
-            ByteArrayInputStream bis = new ByteArrayInputStream(image);
-            BufferedImage saveImage = ImageIO.read(bis);
-            ImageIO.write(saveImage, "jpg", new File(""+fileName+".jpg"));
+//            ByteArrayInputStream bis = new ByteArrayInputStream(image);
+//            BufferedImage saveImage = ImageIO.read(bis);
+            //ImageIO.write(saveImage, "jpg", new File(""+fileName+".jpg"));
             System.out.println("Image generated from the byte array.");
 
             //Iniciando insert a la tabla de ingredientes
@@ -74,7 +73,7 @@ public class CrudRecipes {
                 servicesRecipes.insertPreparaciones(new PreparacionTO(paso, title, username));
             }
             recipesTO.setUsername(username);
-            recipesTO.setImgPath(fileName);
+            recipesTO.setImgPath(null);
             if (servicesRecipes.insert(this.recipesTO)) {
                 LoginController loginController = new LoginController();
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Recipe Added Success"));

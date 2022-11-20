@@ -22,7 +22,7 @@
             font-size: 50px;
             color: #ffffff;
             font-family: cursive;"
-            >Welcome to recipeCreator</h1>
+            >Bienvenido a lineas de cocción;</h1>
 
         <div style="text-align: center;
              padding-top: 120px;
@@ -35,29 +35,34 @@
                     ">
                 <p:growl id="mensaje" showDetail="true" life="700" />
                 <p:growl id="growl" sticky="true" showDetail="true" life="3000" />
-                <p:panelGrid columns="1" style="text-align: center;">
+                <p:panelGrid columns="1" style="text-align: center;" >
+                    <h2 style="text-align: center;
+                        font-size: 25px;
+                        color: #000000;
+                        font-family: cursive;">Inicio de sesion</h2>
+
                     <p:inputText value="#{loginController.username}" placeholder="Username"/>
                     <p:password value="#{loginController.password}"  placeholder="Password" />
-                    <p:commandButton value="Login" actionListener="#{loginController.ingresar()}" update="mensaje"/>
-                    <p:commandButton value="Sign up" onclick="PF('dlg').show();" />
+                    <p:commandButton value="Acceder" actionListener="#{loginController.ingresar()}" update="mensaje"/>
+                    <p:commandButton value="Registrarse" onclick="PF('dlg').show();" />
                 </p:panelGrid>
 
                 <p:dialog header="Sign up" widgetVar="dlg" resizable="false">
                     <h:panelGrid columns="2" cellpadding="5" style="text-align: center">
-                        <h:outputLabel for="username" value="Username:" />
+                        <h:outputLabel for="username" value="Nombre de Usuario:" />
                         <p:inputText id="username" value="#{crudView.usuarioTO.username}" label="username" />
 
-                        <h:outputLabel for="lastname" value="Lastname:" />
+                        <h:outputLabel for="lastname" value="Apellido" />
                         <p:inputText id="lastname" value="#{crudView.usuarioTO.lastname}" label="lastname" />
 
-                        <h:outputLabel for="password" value="Password:" />
+                        <h:outputLabel for="password" value="Contraseña:" />
                         <p:password id="password" value="#{crudView.usuarioTO.password}" label="password" />
 
-                        <h:outputLabel for="email" value="Email:" />
+                        <h:outputLabel for="email" value="Correo Electronico:" />
                         <p:inputText id="email" value="#{crudView.usuarioTO.email}" label="email" />
                         <div style="text-align: center">
                             <f:facet name="footer" >
-                                <p:commandButton value="Sign up" update="growl" action="#{crudView.save()}" oncomplete="handleLoginRequest(xhr, status, args)"/>                               
+                                <p:commandButton value="Registrase" update="growl" action="#{crudView.save()}" oncomplete="handleLoginRequest(xhr, status, args)"/>                               
                             </f:facet> 
                         </div>
                     </h:panelGrid>
