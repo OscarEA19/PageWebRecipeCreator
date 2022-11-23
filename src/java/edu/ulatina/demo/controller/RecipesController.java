@@ -10,8 +10,11 @@ import edu.ulatina.demo.service.ServicesRecipes;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.FacesContext;
+import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.file.UploadedFile;
 
 /**
@@ -30,6 +33,7 @@ public class RecipesController implements Serializable {
     private List<String> ingredientes;
     private List<String> preparaciones;
     private UploadedFile file;
+    private byte[] imagenArray;
 
     public RecipesController() {
         this.ingredientes = new ArrayList<>();
@@ -115,14 +119,23 @@ public class RecipesController implements Serializable {
         this.file = file;
     }
 
-    public void upload() {
-
-        if (file != null) {
-            System.out.println("si");
-        } else {
-            System.out.println("no");
-
-        }
-
+    public void upload(FileUploadEvent event) {
+        FacesMessage msg = new FacesMessage("Imagen ", event.getFile().getFileName() + " se esta subiendo");
+        FacesContext.getCurrentInstance().addMessage(null, msg);
+        this.setImagenArray(event.getFile().getContent());
+        this.setFile(event.getFile());
     }
+
+    public byte[] getImagenArray() {
+        return imagenArray;
+    }
+
+    public void setImagenArray(byte[] imagenArray) {
+        this.imagenArray = imagenArray;
+    }
+
+    
+    
+    
+    
 }

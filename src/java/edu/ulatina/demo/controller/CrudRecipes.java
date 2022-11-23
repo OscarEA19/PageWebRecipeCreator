@@ -14,6 +14,7 @@ import edu.ulatina.demo.service.ServicesUser;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.File;
+import java.io.InputStream;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -46,23 +47,17 @@ public class CrudRecipes {
         this.recipesTO = new RecipesTO();
     }
 
-    public void showMyList() {
-
-    }
-
-    public void save(String username, List<String> ingredientes, List<String> preparaciones, String title) {
+    public void save(String username, List<String> ingredientes, List<String> preparaciones, String title, UploadedFile file, byte[] image) {
         try {
             ServicesRecipes servicesRecipes = new ServicesRecipes();
-
-            //First get image and save at resorces/images/fileName.format
             
-            //byte[] image = file.getContent();
-
-//            ByteArrayInputStream bis = new ByteArrayInputStream(image);
-//            BufferedImage saveImage = ImageIO.read(bis);
-            //ImageIO.write(saveImage, "jpg", new File(""+fileName+".jpg"));
-            System.out.println("Image generated from the byte array.");
-
+            //First get image and save at resorces/images/fileName.format
+            String fileNameAndPath = file.getFileName();
+           
+            ByteArrayInputStream inputStream = new ByteArrayInputStream(image);
+            BufferedImage saveImage = ImageIO.read(inputStream);
+            ImageIO.write(saveImage, "jpg", new File("C:/Users/Espin/OneDrive/Documents/NetBeansProjects/proyectoProgra4/web/resources/images/"+fileNameAndPath));
+            
             //Iniciando insert a la tabla de ingredientes
             for (String ingrediente : ingredientes) {
                 servicesRecipes.insertIngredientes(new IngredienteTO(ingrediente, username, title));
@@ -73,7 +68,8 @@ public class CrudRecipes {
                 servicesRecipes.insertPreparaciones(new PreparacionTO(paso, title, username));
             }
             recipesTO.setUsername(username);
-            recipesTO.setImgPath(null);
+            recipesTO.setImgPath(fileNameAndPath);
+            
             if (servicesRecipes.insert(this.recipesTO)) {
                 LoginController loginController = new LoginController();
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Recipe Added Success"));
@@ -82,7 +78,6 @@ public class CrudRecipes {
             }
             PrimeFaces.current().executeScript("PF('manageProductDialog').hide()");
             PrimeFaces.current().ajax().update("form:messages", "form:dt-products");
-
         } catch (Exception e) {
             e.printStackTrace();
         }
