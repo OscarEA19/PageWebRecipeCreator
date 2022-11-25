@@ -12,22 +12,26 @@ public class PreparacionTO {
 
     private Integer id;
     private String paso;
-    private String titulo;
+    private Integer idReceta;
     private String username;
+    private String titulo;
+
+    public PreparacionTO() {
+    }
+
+    public PreparacionTO(Integer id, String paso, Integer idReceta) {
+        this.id = id;
+        this.paso = paso;
+        this.idReceta = idReceta;
+    }
 
     public PreparacionTO(String paso, String titulo, String username) {
         this.paso = paso;
-        this.titulo = titulo;
         this.username = username;
+        this.titulo = titulo;
     }
-
     
-    public PreparacionTO(Integer id, String paso, String titulo, String username) {
-        this.id = id;
-        this.paso = paso;
-        this.titulo = titulo;
-        this.username = username;
-    }
+    
 
     public Integer getId() {
         return id;
@@ -45,12 +49,12 @@ public class PreparacionTO {
         this.paso = paso;
     }
 
-    public String getTitulo() {
-        return titulo;
+    public Integer getIdReceta() {
+        return idReceta;
     }
 
-    public void setTitulo(String titulo) {
-        this.titulo = titulo;
+    public void setIdReceta(Integer idReceta) {
+        this.idReceta = idReceta;
     }
 
     public String getUsername() {
@@ -60,6 +64,16 @@ public class PreparacionTO {
     public void setUsername(String username) {
         this.username = username;
     }
+
+    public String getTitulo() {
+        return titulo;
+    }
+
+    public void setTitulo(String titulo) {
+        this.titulo = titulo;
+    }
+
+    
     
     
     

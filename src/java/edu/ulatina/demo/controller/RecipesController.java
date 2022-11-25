@@ -7,6 +7,7 @@ package edu.ulatina.demo.controller;
 
 import edu.ulatina.demo.model.RecipesTO;
 import edu.ulatina.demo.service.ServicesRecipes;
+import edu.ulatina.demo.service.ServicesUser;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,6 +15,7 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
+import org.primefaces.PrimeFaces;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.file.UploadedFile;
 
@@ -34,10 +36,15 @@ public class RecipesController implements Serializable {
     private List<String> preparaciones;
     private UploadedFile file;
     private byte[] imagenArray;
+    private RecipesTO informatioRecipes;
 
     public RecipesController() {
         this.ingredientes = new ArrayList<>();
         this.preparaciones = new ArrayList<>();
+    }
+
+    public void newinformacionReceta() {
+
     }
 
     public void showAllRecipes() {
@@ -134,8 +141,12 @@ public class RecipesController implements Serializable {
         this.imagenArray = imagenArray;
     }
 
-    
-    
-    
-    
+    public RecipesTO getInformatioRecipes() {
+        return informatioRecipes;
+    }
+
+    public void setInformatioRecipes(RecipesTO informatioRecipes) {
+        this.informatioRecipes = informatioRecipes;
+    }
+
 }

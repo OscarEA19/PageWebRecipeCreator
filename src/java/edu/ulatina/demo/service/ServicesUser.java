@@ -53,7 +53,7 @@ public class ServicesUser extends Services {
 
         try {
             connection();
-            String sql = "Select id, username, lastname, email, fec_Register FROM user";
+            String sql = "Select id, username, lastname, email, fec_Register FROM user where status = 1";
             pstm = conn.prepareStatement(sql);
 
             rs = pstm.executeQuery();
@@ -87,13 +87,33 @@ public class ServicesUser extends Services {
 
         try {
             connection();
-            String sql = "insert into user (username, lastname, password, email, fec_register ) values (?, ?, ?, ?, CURRENT_TIMESTAMP())";
+            String sql = "insert into user (username, lastname, password, email, fec_register,status,admin ) values (?, ?, ?, ?, CURRENT_TIMESTAMP(),1,0)";
             pstm = conn.prepareStatement(sql);
             pstm.setString(1, username);
             pstm.setString(2, lastname);
             pstm.setString(3, password);
             pstm.setString(4, email);
             
+            pstm.execute();
+           return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        } finally {
+            closeResultSet(rs);
+            closeStatement(pstm);
+            desconect();
+        }
+    }
+    public boolean eliminar(String id) {
+        PreparedStatement pstm = null;
+        ResultSet rs = null;
+
+        try {
+            connection();
+            String sql = "update user set status = 0 where id = ?";
+            pstm = conn.prepareStatement(sql);
+            pstm.setString(1, id);
             pstm.execute();
            return true;
         } catch (Exception e) {

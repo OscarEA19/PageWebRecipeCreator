@@ -12,24 +12,32 @@ public class IngredienteTO {
     
     private Integer id;
     private String ingrediente;
+    private Integer idReceta;
     private String username;
     private String titulo;
+
+    public IngredienteTO() {
+    }
+
+    public IngredienteTO(Integer id, String ingrediente, Integer idReceta) {
+        this.id = id;
+        this.ingrediente = ingrediente;
+        this.idReceta = idReceta;
+    }
+
+    public IngredienteTO(Integer idReceta, String username, String titulo) {
+        this.idReceta = idReceta;
+        this.username = username;
+        this.titulo = titulo;
+    }
 
     public IngredienteTO(String ingrediente, String username, String titulo) {
         this.ingrediente = ingrediente;
         this.username = username;
         this.titulo = titulo;
     }
-
     
     
-    public IngredienteTO(Integer id, String ingrediente, String username, String titulo) {
-        this.id = id;
-        this.ingrediente = ingrediente;
-        this.username = username;
-        this.titulo = titulo;
-    }
-
     public Integer getId() {
         return id;
     }
@@ -44,6 +52,14 @@ public class IngredienteTO {
 
     public void setIngrediente(String ingrediente) {
         this.ingrediente = ingrediente;
+    }
+
+    public Integer getIdReceta() {
+        return idReceta;
+    }
+
+    public void setIdReceta(Integer idReceta) {
+        this.idReceta = idReceta;
     }
 
     public String getUsername() {
@@ -61,6 +77,8 @@ public class IngredienteTO {
     public void setTitulo(String titulo) {
         this.titulo = titulo;
     }
+
     
+   
     
 }

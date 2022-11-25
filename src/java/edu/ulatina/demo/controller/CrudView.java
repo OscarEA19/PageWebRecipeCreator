@@ -26,7 +26,7 @@ public class CrudView {
 
     private UserTO usuarioTO;
     private RecipesTO recipesTO;
-    
+
     public CrudView() {
         this.usuarioTO = new UserTO();
         this.recipesTO = new RecipesTO();
@@ -35,41 +35,34 @@ public class CrudView {
     public void openNew() {
         this.usuarioTO = new UserTO();
     }
+
     public void openNewRecipes() {
         this.recipesTO = new RecipesTO();
     }
 
     public void save() {
         ServicesUser servicesUser = new ServicesUser();
-        
-        if(ValidationUtils.isUserValid(this.usuarioTO)){
-            if(servicesUser.insert(this.usuarioTO)){
-              LoginController loginController = new LoginController();
-              FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("User Added Success, please login")); 
-            }   
-        }else{
-           FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("User Added Failed, please try again")); 
-        }
-        PrimeFaces.current().executeScript("PF('manageProductDialog').hide()");
-        PrimeFaces.current().ajax().update("form:messages", "form:dt-products");
-    }
-    
-    public void saveRecipes(String username) {
-        ServicesRecipes servicesRecipes = new ServicesRecipes();
-        recipesTO.setUsername(username);
-        if(servicesRecipes.insert(this.recipesTO)){
-          LoginController loginController = new LoginController();
-          FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Recipe Added Success")); 
-        }else{
-           FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Recipe Added Failed, please try again")); 
+        if (ValidationUtils.isUserValid(this.usuarioTO)) {
+            if (servicesUser.insert(this.usuarioTO)) {
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Usuario agregado correctamente"));
+            } else {
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Error al crear el usuario"));
+            }
+        } else {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Error al crear el usuario"));
         }
         PrimeFaces.current().executeScript("PF('manageProductDialog').hide()");
         PrimeFaces.current().ajax().update("form:messages", "form:dt-products");
     }
 
-    public void delete() {
-
-        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Product Removed"));
+    public void delete(String id) {
+        ServicesUser servicesUser = new ServicesUser();
+        if (servicesUser.eliminar(id)) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Usuario eliminado correctamente"));
+        } else {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Error al intentar eliminar el usuario"));
+        }
+        PrimeFaces.current().executeScript("PF('manageProductDialog').hide()");
         PrimeFaces.current().ajax().update("form:messages", "form:dt-products");
     }
 

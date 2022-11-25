@@ -6,6 +6,7 @@ package edu.ulatina.demo.model;
 
 import java.util.List;
 
+
 /**
  *
  * @author Espin
@@ -17,9 +18,14 @@ public class RecipesTO {
     private String description;
     private String username;
     private String imgPath;
+    private List<IngredienteTO> ingredientes;
+    private List<PreparacionTO> preparaciones;
     
-
+    
     public RecipesTO() {
+    }
+    public RecipesTO(Integer id) {
+        this.id = id;
     }
 
     public RecipesTO(String title, String description, String imgPath) {
@@ -36,6 +42,17 @@ public class RecipesTO {
         this.username = username;
         this.imgPath = imgPath;
     }
+
+    public RecipesTO(Integer id, String title, String description, String username, String imgPath, List<IngredienteTO> ingredientes, List<PreparacionTO> preparaciones) {
+        this.id = id;
+        this.title = title;
+        this.description = description;
+        this.username = username;
+        this.imgPath = imgPath;
+        this.ingredientes = ingredientes;
+        this.preparaciones = preparaciones;
+    }
+    
     
     public String getTitle() {
         return title;
@@ -76,5 +93,23 @@ public class RecipesTO {
     public void setId(Integer id) {
         this.id = id;
     }
+
+    public List<IngredienteTO> getIngredientes() {
+        return ingredientes;
+    }
+
+    public void setIngredientes(List<IngredienteTO> ingredientes) {
+        this.ingredientes = ingredientes;
+    }
+
+    public List<PreparacionTO> getPreparaciones() {
+        return preparaciones;
+    }
+
+    public void setPreparaciones(List<PreparacionTO> preparaciones) {
+        this.preparaciones = preparaciones;
+    }
+    
+    
     
 }

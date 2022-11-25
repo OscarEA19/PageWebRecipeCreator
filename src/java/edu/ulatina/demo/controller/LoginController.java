@@ -18,6 +18,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletRequest;
+import org.primefaces.PrimeFaces;
 
 /**
  *
@@ -57,7 +58,6 @@ public class LoginController implements Serializable {
             FacesContext.getCurrentInstance().addMessage("sticky-key", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Login Failed", "The username and password are invalid"));
         }
     }
-   
 
     public void goingToLogin() {
         if (Objects.nonNull(this.usuarioTO)) {
@@ -68,9 +68,19 @@ public class LoginController implements Serializable {
             FacesContext.getCurrentInstance().addMessage("sticky-key", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Login Failed", "The username and password are invalid"));
         }
     }
-    
 
-    public static void redireccionar(String ruta) {
+    public void goingToHome() {
+        ServicesUser servicioUsuario = new ServicesUser();
+        ServicesRecipes servicioRecipes = new ServicesRecipes();
+        this.listUser = servicioUsuario.listUser();
+        this.listRecipes = servicioRecipes.listAllRecipes();
+        this.myListRecipes = servicioRecipes.listRecipesByUser(usuarioTO);
+        this.redireccionar("/faces/home.xhtml");
+    }
+
+
+
+public static void redireccionar(String ruta) {
         HttpServletRequest request;
         try {
             request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
@@ -126,6 +136,5 @@ public class LoginController implements Serializable {
     public void setMyListRecipes(List<RecipesTO> myListRecipes) {
         this.myListRecipes = myListRecipes;
     }
-    
 
 }
