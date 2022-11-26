@@ -18,6 +18,7 @@ public class RecipesTO {
     private String description;
     private String username;
     private String imgPath;
+    private Integer idUser;
     private List<IngredienteTO> ingredientes;
     private List<PreparacionTO> preparaciones;
     
@@ -108,6 +109,14 @@ public class RecipesTO {
 
     public void setPreparaciones(List<PreparacionTO> preparaciones) {
         this.preparaciones = preparaciones;
+    }
+
+    public Integer getIdUser() {
+        return idUser;
+    }
+
+    public void setIdUser(Integer idUser) {
+        this.idUser = idUser;
     }
     
     

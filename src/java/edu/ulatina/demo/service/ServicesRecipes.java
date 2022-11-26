@@ -28,7 +28,7 @@ public class ServicesRecipes extends Services {
 
         try {
             connection();
-            String sql = "Select idreceta, titulo, description, img, username FROM recetas where status = true";
+            String sql = "Select idreceta, titulo, description, img, username FROM proyectorecetas.recetas,proyectorecetas.user where recetas.status = true and recetas.iduser = user.id";
             pstm = conn.prepareStatement(sql);
 
             rs = pstm.executeQuery();
@@ -56,13 +56,13 @@ public class ServicesRecipes extends Services {
         List<RecipesTO> listRecipes = new ArrayList<>();
         PreparedStatement pstm = null;
         ResultSet rs = null;
-        String usernameInput = userTO.getUsername();
+        Integer idUser = userTO.getId();
 
         try {
             connection();
-            String sql = "Select idreceta, titulo, description, img, username FROM recetas where username = ? and status = true";
+            String sql = "Select idreceta, titulo, description, img, username FROM proyectorecetas.recetas,proyectorecetas.user where idUser = ? and recetas.status = true and recetas.iduser = user.id";
             pstm = conn.prepareStatement(sql);
-            pstm.setString(1, usernameInput);
+            pstm.setInt(1, idUser);
 
             rs = pstm.executeQuery();
             while (rs.next()) {
@@ -71,7 +71,9 @@ public class ServicesRecipes extends Services {
                 String description = rs.getString("description");
                 String img = rs.getString("img");
                 String username = rs.getString("username");
-                listRecipes.add(new RecipesTO(id,titulo,description,username,img));
+                List<IngredienteTO> ingredienteTOs = listIngredientesByID(id);
+                List<PreparacionTO> preparacionTOs = listPreparacionByID(id);
+                listRecipes.add(new RecipesTO(id,titulo,description,username,img,ingredienteTOs,preparacionTOs));
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -83,15 +85,15 @@ public class ServicesRecipes extends Services {
         return listRecipes;
     }
     
-    public Integer recipeByUsernameAndTitle(String username, String title){
+    public Integer recipeByUsernameAndTitle(Integer idUser, String title){
         PreparedStatement pstm = null;
         ResultSet rs = null;
         
         try {
             connection();
-            String sql = "Select idreceta FROM recetas where username = ? and titulo = ? ";
+            String sql = "Select idreceta FROM recetas where idUser = ? and titulo = ? ";
             pstm = conn.prepareStatement(sql);
-            pstm.setString(1, username);
+            pstm.setInt(1, idUser);
             pstm.setString(2, title);
            
             rs = pstm.executeQuery();
@@ -199,20 +201,20 @@ public class ServicesRecipes extends Services {
         String titulo = recipesTO.getTitle();
         String description = recipesTO.getDescription();
         String img = recipesTO.getImgPath();
-        String usename = recipesTO.getUsername();
+        Integer idUser = recipesTO.getIdUser();
         
         PreparedStatement pstm = null;
         ResultSet rs = null;
 
         try {
             connection();
-            String sql = "insert into recetas (titulo, description, img, username,status,fec_ult_modi) values (?, ?, ?, ?, true,CURRENT_TIMESTAMP())";
+            String sql = "insert into recetas (titulo, description, img, idUser ,status,fec_ult_modi) values (?, ?, ?, ?, true,CURRENT_TIMESTAMP())";
             pstm = conn.prepareStatement(sql);
             pstm.setString(1, titulo);
             pstm.setString(2, description);
             pstm.setString(3, img);
-            pstm.setString(4, usename);
-            
+            pstm.setInt(4, idUser);
+    
             pstm.execute();
            return true;
         } catch (Exception e) {
@@ -224,18 +226,19 @@ public class ServicesRecipes extends Services {
             desconect();
         }
     }
+    
     public boolean insertIngredientes(IngredienteTO ingredienteTO) {
 
         String ingrediente = ingredienteTO.getIngrediente();
-        String titulo = ingredienteTO.getTitulo();
-        String username = ingredienteTO.getUsername();
+        Integer idUser = ingredienteTO.getIdUser();
+        String title = ingredienteTO.getTitulo();
         
         
         PreparedStatement pstm = null;
         ResultSet rs = null;
 
         //TODO: first call get id recipe
-        Integer idReceta = recipeByUsernameAndTitle(username, titulo);
+        Integer idReceta = recipeByUsernameAndTitle(idUser, title);
         
         try {
             connection();
@@ -259,14 +262,14 @@ public class ServicesRecipes extends Services {
     public boolean insertPreparaciones(PreparacionTO preparacionTO) {
 
         String paso = preparacionTO.getPaso();
-        String titulo = preparacionTO.getTitulo();
-        String username = preparacionTO.getUsername();
+        Integer idUser = preparacionTO.getIdUser();
+        String titulo =  preparacionTO.getTitulo();
         
         PreparedStatement pstm = null;
         ResultSet rs = null;
         
         //TODO: first call get id recipe
-        Integer idReceta = recipeByUsernameAndTitle(username, titulo);
+        Integer idReceta = recipeByUsernameAndTitle(idUser, titulo);
 
         try {
             connection();
@@ -295,6 +298,99 @@ public class ServicesRecipes extends Services {
             String sql = "update recetas set status = 0, fec_ult_modi = CURRENT_TIMESTAMP() where idReceta = ?";
             pstm = conn.prepareStatement(sql);
             pstm.setInt(1, id);
+            pstm.execute();
+           return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        } finally {
+            closeResultSet(rs);
+            closeStatement(pstm);
+            desconect();
+        }
+    }
+    
+    public boolean updateReceta(RecipesTO recipesTO) {
+
+        String titulo = recipesTO.getTitle();
+        String description = recipesTO.getDescription();
+        String img = recipesTO.getImgPath();
+        String usename = recipesTO.getUsername();
+        
+        PreparedStatement pstm = null;
+        ResultSet rs = null;
+
+        try {
+            connection();
+            String sql = "insert into recetas (titulo, description, img, username,status,fec_ult_modi) values (?, ?, ?, ?, true,CURRENT_TIMESTAMP())";
+            pstm = conn.prepareStatement(sql);
+            pstm.setString(1, titulo);
+            pstm.setString(2, description);
+            pstm.setString(3, img);
+            pstm.setString(4, usename);
+            
+            pstm.execute();
+           return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        } finally {
+            closeResultSet(rs);
+            closeStatement(pstm);
+            desconect();
+        }
+    }
+    
+    public boolean updateIngrediente(RecipesTO recipesTO) {
+
+        String titulo = recipesTO.getTitle();
+        String description = recipesTO.getDescription();
+        String img = recipesTO.getImgPath();
+        String usename = recipesTO.getUsername();
+        
+        PreparedStatement pstm = null;
+        ResultSet rs = null;
+
+        try {
+            connection();
+            String sql = "insert into recetas (titulo, description, img, username,status,fec_ult_modi) values (?, ?, ?, ?, true,CURRENT_TIMESTAMP())";
+            pstm = conn.prepareStatement(sql);
+            pstm.setString(1, titulo);
+            pstm.setString(2, description);
+            pstm.setString(3, img);
+            pstm.setString(4, usename);
+            
+            pstm.execute();
+           return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        } finally {
+            closeResultSet(rs);
+            closeStatement(pstm);
+            desconect();
+        }
+    }
+    
+    public boolean updatePreparacion(RecipesTO recipesTO) {
+
+        String titulo = recipesTO.getTitle();
+        String description = recipesTO.getDescription();
+        String img = recipesTO.getImgPath();
+        String usename = recipesTO.getUsername();
+        
+        PreparedStatement pstm = null;
+        ResultSet rs = null;
+
+        try {
+            connection();
+            String sql = "insert into recetas (titulo, description, img, username,status,fec_ult_modi) values (?, ?, ?, ?, true,CURRENT_TIMESTAMP())";
+            pstm = conn.prepareStatement(sql);
+            pstm.setString(1, titulo);
+            pstm.setString(2, description);
+            pstm.setString(3, img);
+            pstm.setString(4, usename);
+            
             pstm.execute();
            return true;
         } catch (Exception e) {

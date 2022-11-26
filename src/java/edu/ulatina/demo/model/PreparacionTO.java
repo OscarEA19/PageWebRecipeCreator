@@ -15,9 +15,23 @@ public class PreparacionTO {
     private Integer idReceta;
     private String username;
     private String titulo;
+    private Integer idUser;
 
     public PreparacionTO() {
     }
+
+    public PreparacionTO(String paso, Integer idReceta, Integer idUser) {
+        this.paso = paso;
+        this.idReceta = idReceta;
+        this.idUser = idUser;
+    }
+
+    public PreparacionTO(String paso, String titulo, Integer idUser) {
+        this.paso = paso;
+        this.titulo = titulo;
+        this.idUser = idUser;
+    }
+    
 
     public PreparacionTO(Integer id, String paso, Integer idReceta) {
         this.id = id;
@@ -73,11 +87,13 @@ public class PreparacionTO {
         this.titulo = titulo;
     }
 
-    
-    
-    
-    
+    public Integer getIdUser() {
+        return idUser;
+    }
 
-    
+    public void setIdUser(Integer idUser) {
+        this.idUser = idUser;
+    }
+  
     
 }

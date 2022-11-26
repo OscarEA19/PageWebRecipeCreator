@@ -43,6 +43,7 @@ public class LoginController implements Serializable {
         this.password = password;
     }
 
+    
     public void ingresar() {
         System.out.println("Username: " + this.username);
         System.out.println("Password: " + this.password);
@@ -55,7 +56,7 @@ public class LoginController implements Serializable {
             this.myListRecipes = servicioRecipes.listRecipesByUser(usuarioTO);
             this.redireccionar("/faces/home.xhtml");
         } else {
-            FacesContext.getCurrentInstance().addMessage("sticky-key", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Login Failed", "The username and password are invalid"));
+            FacesContext.getCurrentInstance().addMessage("sticky-key", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error al hacer login", "El nombre de usuario o la contraseña es invalida"));
         }
     }
 

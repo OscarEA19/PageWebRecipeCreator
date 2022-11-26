@@ -15,9 +15,23 @@ public class IngredienteTO {
     private Integer idReceta;
     private String username;
     private String titulo;
+    private Integer idUser;
 
     public IngredienteTO() {
     }
+
+    public IngredienteTO(String ingrediente, Integer idReceta, Integer idUser) {
+        this.ingrediente = ingrediente;
+        this.idReceta = idReceta;
+        this.idUser = idUser;
+    }
+
+    public IngredienteTO(String ingrediente, String titulo, Integer idUser) {
+        this.ingrediente = ingrediente;
+        this.titulo = titulo;
+        this.idUser = idUser;
+    }
+    
 
     public IngredienteTO(Integer id, String ingrediente, Integer idReceta) {
         this.id = id;
@@ -76,6 +90,14 @@ public class IngredienteTO {
 
     public void setTitulo(String titulo) {
         this.titulo = titulo;
+    }
+
+    public Integer getIdUser() {
+        return idUser;
+    }
+
+    public void setIdUser(Integer idUser) {
+        this.idUser = idUser;
     }
 
     

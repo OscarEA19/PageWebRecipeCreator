@@ -4,14 +4,16 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
-   
+
     <h:head>
         <title>Mantenimientos de usuarios</title>
     </h:head>
-    <h:body>
-        <h:form id="form">
+    <h:body style = "font-family: cursive">
+        <h1 style="text-align: center">Mantenimiento de Personas</h1>    
 
-             <p:tabMenu activeIndex="#{param.i}">
+        <h:form id="form" >
+            <p:growl id="msgs" showDetail="true"/>
+            <p:tabMenu activeIndex="#{param.i}">
                 <p:menuitem value="Inicio" outcome="home" icon="pi pi-fw pi-home">
                     <f:param name="i" value="0"/>
                 </p:menuitem>
@@ -37,38 +39,60 @@
                 </p:toolbarGroup>
             </p:toolbar>
 
-            <p:dataTable var="user" value="#{loginController.listUser}"
-                         reflow="true" styleClass="products-table"  
-                         rowKey="#{product.id}" paginator="true" rows="10" rowSelectMode="add" paginatorPosition="bottom">
-                
+
+            <p:dataTable id="products1" var="user" value="#{loginController.listUser}" editable="true" style="margin-bottom:20px">
+
+                <p:ajax event="rowEdit" listener="#{crudView.onRowEdit}" update=":form:msgs"/>
+                <p:ajax event="rowEditCancel" listener="#{crudView.onRowCancel}" update=":form:msgs"/>
+
                 <f:facet name="header">Lista de usuarios</f:facet>
 
                 <p:column headerText="ID" >
                     <h:outputText value="#{user.id}" />
                 </p:column>
 
-                <p:column headerText="Nombre" >
-                    <h:outputText value="#{user.username}" />
+                <p:column headerText="Nombre">
+                    <p:cellEditor>
+                        <f:facet name="output">
+                            <h:outputText value="#{user.username}"/>
+                        </f:facet>
+                        <f:facet name="input">
+                            <p:inputText id="modelInput" value="#{user.username}" style="width:100%"/>
+                        </f:facet>
+                    </p:cellEditor>
                 </p:column>
 
                 <p:column headerText="Apellido">
-                    <h:outputText value="#{user.lastname}" />
+                    <p:cellEditor>
+                        <f:facet name="output">
+                            <h:outputText value="#{user.lastname}"/>
+                        </f:facet>
+                        <f:facet name="input">
+                            <p:inputText id="modelInput2" value="#{user.lastname}" style="width:100%"/>
+                        </f:facet>
+                    </p:cellEditor>
                 </p:column>
 
-                <p:column headerText="Correo">
-                    <h:outputText value="#{user.email}" />
+                <p:column headerText="Email">
+                    <p:cellEditor>
+                        <f:facet name="output">
+                            <h:outputText value="#{user.email}"/>
+                        </f:facet>
+                        <f:facet name="input">
+                            <p:inputText id="modelInput3" value="#{user.email}" style="width:100%"/>
+                        </f:facet>
+                    </p:cellEditor>
                 </p:column>
 
                 <p:column headerText="Fecha de ingreso">
                     <h:outputText value="#{user.fechaRegistro}" />
                 </p:column>
-                
+
+                <p:column style="width:6rem">
+                    <p:rowEditor editTitle="Edit Row" cancelTitle="Cancel Edit" saveTitle="Save Row"/>
+                </p:column>
+
                 <p:column exportable="false">
-                    <p:commandButton icon="pi pi-pencil" update=":dialogs:manage-product-content"
-                                     oncomplete="PF('manageProductDialog').show()"
-                                     styleClass="edit-button rounded-button ui-button-success" process="@this" style="margin-right: 10px">
-                        <p:resetInput target=":dialogs:manage-product-content"/>
-                    </p:commandButton>
                     <p:commandButton class="ui-button-warning rounded-button" icon="pi pi-trash"
                                      process="@this" 
                                      oncomplete="PF('deleteProductDialog').show()">
@@ -84,6 +108,7 @@
                     </p:confirmDialog>
                 </p:column>
             </p:dataTable>
+
         </h:form>
 
         <h:form id="dialogs">
@@ -122,8 +147,45 @@
                 <p:commandButton value="Si" type="button" styleClass="ui-confirmdialog-yes" icon="pi pi-check" />
                 <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no ui-button-secondary" icon="pi pi-times" />
             </p:confirmDialog>
-
         </h:form>
+
+        <h:form id="dialog">
+            <p:growl id="messagesUser" showDetail="true" />
+            <p:dialog header="Actualizar usuario" showEffect="fade" modal="true" widgetVar="manageUser" responsive="true">
+                <p:outputPanel id="manage-user" class="ui-fluid">
+                    <p:outputPanel >
+                        <div class="field">
+                            <p:outputLabel for="nombre">Nombre: #{crudView.usuarioTO.username} </p:outputLabel>
+                            <p:inputText id="nombre" value="#{crudView.usuarioTO.username}"/>
+                        </div>
+
+                        <div class="field">
+                            <p:outputLabel for="apellido">Apellido: #{crudView.usuarioTO.lastname} </p:outputLabel>
+                            <p:inputTextarea id="apellido" value="#{crudView.usuarioTO.lastname}" />
+                        </div>
+
+                        <div class="field">
+                            <p:outputLabel for="correo">Correo: #{crudView.usuarioTO.email}</p:outputLabel>
+                            <p:inputTextarea id="correo" value="#{crudView.usuarioTO.email}" />
+                        </div>
+                    </p:outputPanel>
+                </p:outputPanel>
+                <f:facet name="footer">
+                    <p:commandButton value="Guardar" icon="pi pi-check" actionListener="#{crudView.save}" update="manage-user" process="manage-user @this" />
+                    <p:commandButton value="Cancelar" icon="pi pi-times" onclick="PF('manageUser').hide()" class="ui-button-secondary" type="button" />
+                </f:facet>
+            </p:dialog>
+
+            <p:confirmDialog global="true" showEffect="fade" width="300">
+                <p:commandButton value="Si" type="button" styleClass="ui-confirmdialog-yes" icon="pi pi-check" />
+                <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no ui-button-secondary" icon="pi pi-times" />
+            </p:confirmDialog>
+        </h:form>
+
+
+
+
+
     </h:body>
 </html>
 

@@ -10,8 +10,11 @@
         <title>MantenimientoRecetas</title>
     </h:head>
 
-    <h:body style = "background-image: url('resources/images/image.jpg')">
+    <h:body style = "font-family: cursive">
+        <h1 style="text-align: center">Mantenimiento de mis Recetas</h1>    
         <h:form id="form">
+            <p:growl id="msgs" showDetail="true"/>
+
             <p:tabMenu activeIndex="#{param.i}">
                 <p:menuitem value="Inicio" outcome="home" icon="pi pi-fw pi-home">
                     <f:param name="i" value="0"/>
@@ -39,9 +42,12 @@
                 </p:toolbarGroup>
             </p:toolbar>
 
-            <p:dataTable var="recipe" value="#{loginController.myListRecipes}"
-                         reflow="true" styleClass="products-table"  
-                         rowKey="#{recipe.id}" paginator="true" rows="10" rowSelectMode="add" paginatorPosition="bottom">
+
+            <p:dataTable id="products1" var="recipe" value="#{loginController.myListRecipes}" editable="true" style="margin-bottom:20px">
+
+                <p:ajax event="rowEdit" listener="#{crudView.onRowEdit}" update=":form:msgs"/>
+                <p:ajax event="rowEditCancel" listener="#{crudView.onRowCancel}" update=":form:msgs"/>
+
 
                 <f:facet name="header">Mi lista de recetas</f:facet>
 
@@ -52,29 +58,86 @@
                 <p:column headerText="Imagen" >
                     <h:graphicImage library="images" name="#{recipe.imgPath}" style="width: 70px; height: 70px"/>
                 </p:column>
-
-                <p:column headerText="Titulo" >
-                    <h:outputText value="#{recipe.title}" />
+                
+                <p:column headerText="Titulo">
+                    <p:cellEditor>
+                        <f:facet name="output">
+                            <h:outputText value="#{recipe.title}"/>
+                        </f:facet>
+                        <f:facet name="input">
+                            <p:inputText id="modelInput4" value="#{recipe.title}" style="width:100%"/>
+                        </f:facet>
+                    </p:cellEditor>
                 </p:column>
-
+                
+                
                 <p:column headerText="Descripcion">
-                    <h:outputText value="#{recipe.description}" />
+                    <p:cellEditor>
+                        <f:facet name="output">
+                            <h:outputText value="#{recipe.description}"/>
+                        </f:facet>
+                        <f:facet name="input">
+                            <p:inputText id="modelInput3" value="#{recipe.description}" style="width:100%"/>
+                        </f:facet>
+                    </p:cellEditor>
                 </p:column>
+
+                <p:column headerText="Ingredientes">
+                    <p:accordionPanel activeIndex="-2" multiple="true">
+                        <p:tab title="Ingredientes">
+                            <h:panelGrid columns="1" cellpadding="5">
+                                <p:repeat value="#{recipe.ingredientes}" var ="ingredientesList">
+                                    <p:cellEditor>
+                                        <f:facet name="output">
+                                            <h:outputText value="#{ingredientesList.ingrediente}"/>
+                                        </f:facet>
+                                        <f:facet name="input">
+                                            <p:inputText id="modelInput" value="#{ingredientesList.ingrediente}" style="width:100%"/>
+                                        </f:facet>
+                                    </p:cellEditor>
+                                </p:repeat>
+                            </h:panelGrid>
+                        </p:tab>
+                    </p:accordionPanel>
+                </p:column>
+                
+                <p:column headerText="Preparaciones">
+                    <p:accordionPanel activeIndex="-2" multiple="true">
+                        <p:tab title="Preparación">
+                            <h:panelGrid columns="1" cellpadding="5">
+                                <p:repeat value="#{recipe.preparaciones}" var ="preparacionList">
+                                    <p:cellEditor>
+                                        <f:facet name="output">
+                                            <h:outputText value="#{preparacionList.paso}"/>
+                                        </f:facet>
+                                        <f:facet name="input">
+                                            <p:inputText id="modelInput1" value="#{preparacionList.paso}" style="width:100%"/>
+                                        </f:facet>
+                                    </p:cellEditor>
+                                </p:repeat>
+                            </h:panelGrid>
+                        </p:tab>
+                    </p:accordionPanel>
+                </p:column>
+
+
+                <p:repeat value="#{recipes.ingredientes}" var ="ingredientesList">
+                    <h:outputText value="#{ingredientesList.ingrediente}" />
+                </p:repeat>
 
                 <p:column headerText="Creado por:">
                     <h:outputText value="#{recipe.username}" />
                 </p:column>
 
-                
-                
-                
-                
-                
+
+
+
+                <p:column style="width:6rem">
+                    <p:rowEditor editTitle="Edit Row" cancelTitle="Cancel Edit" saveTitle="Save Row"/>
+                </p:column>
+
                 <p:column exportable="false">
-                    <p:commandButton icon="pi pi-pencil" update=":dialogs:manage-product-content"
-                                     oncomplete="PF('manageProductDialog').show()"
-                                     styleClass="edit-button rounded-button ui-button-success" process="@this" style="margin-right: 10px">
-                    </p:commandButton>
+
                     <p:commandButton class="ui-button-warning rounded-button" icon="pi pi-trash"
                                      process="@this" 
                                      oncomplete="PF('deleteProductDialog').show()">
@@ -139,7 +202,7 @@
                     </p:outputPanel>
                 </p:outputPanel>
                 <f:facet name="footer">
-                    <p:commandButton value="Guardar" icon="pi pi-check" actionListener="#{crudRecipes.save(loginController.username,recipesController.ingredientes,recipesController.preparaciones,crudRecipes.recipesTO.title,recipesController.file,recipesController.imagenArray)}" update="manage-product-content" process="manage-product-content @this" />
+                    <p:commandButton value="Guardar" icon="pi pi-check" actionListener="#{crudRecipes.save(loginController.usuarioTO.id,recipesController.ingredientes,recipesController.preparaciones,crudRecipes.recipesTO.title,recipesController.file,recipesController.imagenArray)}" update="manage-product-content" process="manage-product-content @this" />
                     <p:commandButton value="Cancelar" icon="pi pi-times" onclick="PF('manageProductDialog').hide()" class="ui-button-secondary" type="button" />
                 </f:facet>
             </p:dialog>

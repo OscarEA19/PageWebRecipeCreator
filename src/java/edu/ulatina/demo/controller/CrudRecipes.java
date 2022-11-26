@@ -48,7 +48,7 @@ public class CrudRecipes {
 
     }
 
-    public void save(String username, List<String> ingredientes, List<String> preparaciones, String title, UploadedFile file, byte[] image) {
+    public void save(Integer idUser, List<String> ingredientes, List<String> preparaciones, String title, UploadedFile file, byte[] image) {
         try {
             ServicesRecipes servicesRecipes = new ServicesRecipes();
 
@@ -59,7 +59,7 @@ public class CrudRecipes {
             BufferedImage saveImage = ImageIO.read(inputStream);
             ImageIO.write(saveImage, "jpg", new File("C:/Users/Espin/OneDrive/Documents/NetBeansProjects/proyectoProgra4/web/resources/images/" + fileNameAndPath));
 
-            recipesTO.setUsername(username);
+            recipesTO.setIdUser(idUser);
             recipesTO.setImgPath(fileNameAndPath);
 
             if (servicesRecipes.insert(this.recipesTO)) {
@@ -67,12 +67,12 @@ public class CrudRecipes {
 
                 //Iniciando insert a la tabla de ingredientes
                 for (String ingrediente : ingredientes) {
-                    servicesRecipes.insertIngredientes(new IngredienteTO(ingrediente, username, title));
+                    servicesRecipes.insertIngredientes(new IngredienteTO(ingrediente,title, idUser));
                 }
 
                 //Iniciando insert a la tabla de preparaciones
                 for (String paso : preparaciones) {
-                    servicesRecipes.insertPreparaciones(new PreparacionTO(paso, title, username));
+                    servicesRecipes.insertPreparaciones(new PreparacionTO(paso, title, idUser));
                 }
 
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Recipe Added Success"));

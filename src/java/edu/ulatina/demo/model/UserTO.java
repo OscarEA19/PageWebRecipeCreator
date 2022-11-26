@@ -19,16 +19,25 @@ public class UserTO implements Serializable {
     private String password;
     private String email;
     private Date fechaRegistro;
-
+    private boolean admin;
+    
+    
     public UserTO() {
     }
     
+     public UserTO(int id, String username, String lastname, String email, boolean admin) {
+        this.id = id;
+        this.username = username;
+        this.lastname = lastname;
+        this.email = email;
+        this.admin = admin;
+    }
+     
      public UserTO(int id, String username, String lastname, String email) {
         this.id = id;
         this.username = username;
         this.lastname = lastname;
         this.email = email;
-       
     }
 
     public UserTO(int id, String username, String lastname, String email, Date fechaRegistro) {
@@ -88,6 +97,15 @@ public class UserTO implements Serializable {
     public void setLastname(String lastname) {
         this.lastname = lastname;
     }
+
+    public boolean isAdmin() {
+        return admin;
+    }
+
+    public void setAdmin(boolean admin) {
+        this.admin = admin;
+    }
+    
 
     
 }

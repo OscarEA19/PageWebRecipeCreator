@@ -24,7 +24,7 @@ public class ServicesUser extends Services {
 
         try {
             connection();
-            String sql = "Select id, username, lastname, email, fec_register FROM user where username = ? and password = ?";
+            String sql = "Select id, username, lastname, email, fec_register, admin FROM user where username = ? and password = ?";
             pstm = conn.prepareStatement(sql);
             pstm.setString(1, username);
             pstm.setString(2, password);
@@ -34,7 +34,8 @@ public class ServicesUser extends Services {
                 String nombre = rs.getString("username");
                 String apellido = rs.getString("lastname");
                 String correo = rs.getString("email");
-                return new UserTO(id, nombre, apellido, correo);
+                boolean isAdmin = rs.getBoolean("admin");
+                return new UserTO(id, nombre, apellido, correo,isAdmin);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -125,4 +126,37 @@ public class ServicesUser extends Services {
             desconect();
         }
     }
+    
+    public boolean updateUsuario(UserTO usuarioTO) {
+
+        String username = usuarioTO.getUsername();
+        String lastname = usuarioTO.getLastname();
+        String email =  usuarioTO.getEmail();
+        Integer id = usuarioTO.getId();
+        
+        PreparedStatement pstm = null;
+        ResultSet rs = null;
+
+        try {
+            connection();
+            String sql = "update user set username = ? ,email = ?, lastname = ? where id = ?";
+            pstm = conn.prepareStatement(sql);
+            pstm.setString(1, username);
+            pstm.setString(2, email);
+            pstm.setString(3, lastname);
+            pstm.setString(4, email);
+            pstm.setInt(4, id);
+            
+            pstm.execute();
+           return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        } finally {
+            closeResultSet(rs);
+            closeStatement(pstm);
+            desconect();
+        }
+    }
+    
 }
