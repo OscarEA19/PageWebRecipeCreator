@@ -49,7 +49,7 @@
             </p:toolbar>
 
 
-            <p:dataTable id="products1" var="recipe" value="#{loginController.myListRecipes}" editable="true" style="margin-bottom:20px">
+            <p:dataTable id="products1" var="recipe" value="#{loginController.listRecipes}" editable="true" style="margin-bottom:20px">
 
                 <p:ajax event="rowEdit" listener="#{crudRecipes.onRowEdit}" update=":form:msgs"/>
                 <p:ajax event="rowEditCancel" listener="#{crudRecipes.onRowCancel}" update=":form:msgs"/>
@@ -64,7 +64,7 @@
                 <p:column headerText="Imagen" >
                     <h:graphicImage library="images" name="#{recipe.imgPath}" style="width: 70px; height: 70px"/>
                 </p:column>
-
+                
                 <p:column headerText="Titulo">
                     <p:cellEditor>
                         <f:facet name="output">
@@ -75,8 +75,8 @@
                         </f:facet>
                     </p:cellEditor>
                 </p:column>
-
-
+                
+                
                 <p:column headerText="Descripcion">
                     <p:cellEditor>
                         <f:facet name="output">
@@ -106,7 +106,7 @@
                         </p:tab>
                     </p:accordionPanel>
                 </p:column>
-
+                
                 <p:column headerText="Preparaciones">
                     <p:accordionPanel activeIndex="-2" multiple="true">
                         <p:tab title="Preparación">

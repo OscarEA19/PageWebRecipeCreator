@@ -312,22 +312,19 @@ public class ServicesRecipes extends Services {
     
     public boolean updateReceta(RecipesTO recipesTO) {
 
+        Integer idReceta = recipesTO.getId();
         String titulo = recipesTO.getTitle();
-        String description = recipesTO.getDescription();
-        String img = recipesTO.getImgPath();
-        String usename = recipesTO.getUsername();
-        
+        String description = recipesTO.getDescription();        
         PreparedStatement pstm = null;
         ResultSet rs = null;
 
         try {
             connection();
-            String sql = "insert into recetas (titulo, description, img, username,status,fec_ult_modi) values (?, ?, ?, ?, true,CURRENT_TIMESTAMP())";
+            String sql = "update recetas set titulo = ? , description = ? where idReceta = ?";
             pstm = conn.prepareStatement(sql);
             pstm.setString(1, titulo);
             pstm.setString(2, description);
-            pstm.setString(3, img);
-            pstm.setString(4, usename);
+            pstm.setInt(3, idReceta);
             
             pstm.execute();
            return true;
@@ -343,25 +340,26 @@ public class ServicesRecipes extends Services {
     
     public boolean updateIngrediente(RecipesTO recipesTO) {
 
-        String titulo = recipesTO.getTitle();
-        String description = recipesTO.getDescription();
-        String img = recipesTO.getImgPath();
-        String usename = recipesTO.getUsername();
-        
+        List<IngredienteTO> ingredienteTOs = recipesTO.getIngredientes();
         PreparedStatement pstm = null;
         ResultSet rs = null;
-
+        
         try {
             connection();
-            String sql = "insert into recetas (titulo, description, img, username,status,fec_ult_modi) values (?, ?, ?, ?, true,CURRENT_TIMESTAMP())";
-            pstm = conn.prepareStatement(sql);
-            pstm.setString(1, titulo);
-            pstm.setString(2, description);
-            pstm.setString(3, img);
-            pstm.setString(4, usename);
-            
-            pstm.execute();
-           return true;
+            for (IngredienteTO ingredienteTO : ingredienteTOs) {
+                
+                String ingredienteField = ingredienteTO.getIngrediente();
+                Integer id = ingredienteTO.getId();
+                Integer idReceta = ingredienteTO.getIdReceta();
+                
+                String sql = "update ingredientes set ingrediente = ? where id = ? and idReceta = ? ";
+                pstm = conn.prepareStatement(sql);
+                pstm.setString(1, ingredienteField);
+                pstm.setInt(2, id);
+                pstm.setInt(3, idReceta);
+                pstm.execute();
+            }
+            return true;
         } catch (Exception e) {
             e.printStackTrace();
             return false;
@@ -374,25 +372,26 @@ public class ServicesRecipes extends Services {
     
     public boolean updatePreparacion(RecipesTO recipesTO) {
 
-        String titulo = recipesTO.getTitle();
-        String description = recipesTO.getDescription();
-        String img = recipesTO.getImgPath();
-        String usename = recipesTO.getUsername();
-        
+        List<PreparacionTO> preparacionTOs = recipesTO.getPreparaciones();
         PreparedStatement pstm = null;
         ResultSet rs = null;
-
+        
         try {
             connection();
-            String sql = "insert into recetas (titulo, description, img, username,status,fec_ult_modi) values (?, ?, ?, ?, true,CURRENT_TIMESTAMP())";
-            pstm = conn.prepareStatement(sql);
-            pstm.setString(1, titulo);
-            pstm.setString(2, description);
-            pstm.setString(3, img);
-            pstm.setString(4, usename);
-            
-            pstm.execute();
-           return true;
+            for (PreparacionTO preparacionTO : preparacionTOs) {
+                
+                String pasoField = preparacionTO.getPaso();
+                Integer id = preparacionTO.getId();
+                Integer idReceta = preparacionTO.getIdReceta();
+                
+                String sql = "update preparacion set paso = ? where id = ? and idReceta = ? ";
+                pstm = conn.prepareStatement(sql);
+                pstm.setString(1, pasoField);
+                pstm.setInt(2, id);
+                pstm.setInt(3, idReceta);
+                pstm.execute();
+            }
+            return true;
         } catch (Exception e) {
             e.printStackTrace();
             return false;

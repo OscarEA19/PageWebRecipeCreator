@@ -29,6 +29,16 @@ public class RecipesTO {
         this.id = id;
     }
 
+    public RecipesTO(Integer id, String title, String description, List<IngredienteTO> ingredientes, List<PreparacionTO> preparaciones) {
+        this.id = id;
+        this.title = title;
+        this.description = description;
+        this.ingredientes = ingredientes;
+        this.preparaciones = preparaciones;
+    }
+
+    
+    
     public RecipesTO(String title, String description, String imgPath) {
         this.title = title;
         this.description = description;

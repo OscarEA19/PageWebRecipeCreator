@@ -3,7 +3,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:p="http://primefaces.org/ui"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
 
     <h:head>
         <title>Mantenimientos de usuarios</title>
@@ -20,13 +21,18 @@
                 <p:menuitem value="Mantenimiento de mis Recetas" outcome="mantenimientoRecetas" icon="pi pi-fw pi-book">
                     <f:param name="i" value="1"/>
                 </p:menuitem>
-                <p:menuitem value="Mantenimiento de Usuarios" outcome="mantenimientoPersona" icon="pi pi-fw pi-user-edit">
-                    <f:param name="i" value="2"/>
-                </p:menuitem>
+                <c:if test="#{loginController.usuarioTO.admin == true}">
+                    <p:menuitem value="Mantenimiento de Usuarios" outcome="mantenimientoPersona" icon="pi pi-fw pi-user-edit">
+                        <f:param name="i" value="2"/>
+                    </p:menuitem>
+                    <p:menuitem value="Mantenimientos de recetas globales" outcome="mantenimientoRecetasAdmin" icon="pi pi-fw pi-user-edit">
+                        <f:param name="i" value="3"/>
+                    </p:menuitem>
+                </c:if>
                 <p:menuitem value="Salir" actionListener="#{loginController.goingToLogin()}" icon="pi pi-fw pi-sign-in">
-                    <f:param name="i" value="3"/>
+                    <f:param name="i" value="4"/>
                 </p:menuitem>
-            </p:tabMenu>
+            </p:tabMenu> 
 
             <p:growl id="messages" showDetail="true" />
             <p:toolbar> 

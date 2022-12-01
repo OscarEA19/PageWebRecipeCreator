@@ -3,7 +3,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:p="http://primefaces.org/ui"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
 
 
     <h:head>
@@ -22,13 +23,18 @@
                 <p:menuitem value="Mantenimiento de mis Recetas" outcome="mantenimientoRecetas" icon="pi pi-fw pi-book">
                     <f:param name="i" value="1"/>
                 </p:menuitem>
-                <p:menuitem value="Mantenimiento de Usuarios" outcome="mantenimientoPersona" icon="pi pi-fw pi-user-edit">
-                    <f:param name="i" value="2"/>
-                </p:menuitem>
+                <c:if test="#{loginController.usuarioTO.admin == true}">
+                    <p:menuitem value="Mantenimiento de Usuarios" outcome="mantenimientoPersona" icon="pi pi-fw pi-user-edit">
+                        <f:param name="i" value="2"/>
+                    </p:menuitem>
+                    <p:menuitem value="Mantenimientos de recetas globales" outcome="mantenimientoRecetasAdmin" icon="pi pi-fw pi-user-edit">
+                        <f:param name="i" value="3"/>
+                    </p:menuitem>
+                </c:if>
                 <p:menuitem value="Salir" actionListener="#{loginController.goingToLogin()}" icon="pi pi-fw pi-sign-in">
-                    <f:param name="i" value="3"/>
+                    <f:param name="i" value="4"/>
                 </p:menuitem>
-            </p:tabMenu>
+            </p:tabMenu> 
 
             <p:growl id="messages" showDetail="true" />
 
@@ -45,8 +51,8 @@
 
             <p:dataTable id="products1" var="recipe" value="#{loginController.myListRecipes}" editable="true" style="margin-bottom:20px">
 
-                <p:ajax event="rowEdit" listener="#{crudView.onRowEdit}" update=":form:msgs"/>
-                <p:ajax event="rowEditCancel" listener="#{crudView.onRowCancel}" update=":form:msgs"/>
+                <p:ajax event="rowEdit" listener="#{crudRecipes.onRowEdit}" update=":form:msgs"/>
+                <p:ajax event="rowEditCancel" listener="#{crudRecipes.onRowCancel}" update=":form:msgs"/>
 
 
                 <f:facet name="header">Mi lista de recetas</f:facet>
@@ -58,7 +64,7 @@
                 <p:column headerText="Imagen" >
                     <h:graphicImage library="images" name="#{recipe.imgPath}" style="width: 70px; height: 70px"/>
                 </p:column>
-                
+
                 <p:column headerText="Titulo">
                     <p:cellEditor>
                         <f:facet name="output">
@@ -69,8 +75,8 @@
                         </f:facet>
                     </p:cellEditor>
                 </p:column>
-                
-                
+
+
                 <p:column headerText="Descripcion">
                     <p:cellEditor>
                         <f:facet name="output">
@@ -100,7 +106,7 @@
                         </p:tab>
                     </p:accordionPanel>
                 </p:column>
-                
+
                 <p:column headerText="Preparaciones">
                     <p:accordionPanel activeIndex="-2" multiple="true">
                         <p:tab title="Preparación">

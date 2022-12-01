@@ -7,6 +7,7 @@ package edu.ulatina.demo.controller;
 import edu.ulatina.demo.model.IngredienteTO;
 import edu.ulatina.demo.model.PreparacionTO;
 import edu.ulatina.demo.model.RecipesTO;
+import edu.ulatina.demo.model.UserTO;
 import edu.ulatina.demo.service.ServicesRecipes;
 import edu.ulatina.demo.service.ServicesUser;
 import java.awt.image.BufferedImage;
@@ -20,6 +21,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.imageio.ImageIO;
 import org.primefaces.PrimeFaces;
+import org.primefaces.event.RowEditEvent;
 import org.primefaces.model.file.UploadedFile;
 
 /**
@@ -67,7 +69,7 @@ public class CrudRecipes {
 
                 //Iniciando insert a la tabla de ingredientes
                 for (String ingrediente : ingredientes) {
-                    servicesRecipes.insertIngredientes(new IngredienteTO(ingrediente,title, idUser));
+                    servicesRecipes.insertIngredientes(new IngredienteTO(ingrediente, title, idUser));
                 }
 
                 //Iniciando insert a la tabla de preparaciones
@@ -120,6 +122,42 @@ public class CrudRecipes {
 
     public void setInformatioRecipes(RecipesTO informatioRecipes) {
         this.informatioRecipes = informatioRecipes;
+    }
+
+    public void onRowEdit(RowEditEvent<RecipesTO> event) {
+
+        ServicesRecipes servicesRecipes = new ServicesRecipes();
+
+        Integer id = event.getObject().getId();
+        String titulo = event.getObject().getTitle();
+        String descripcion = event.getObject().getDescription();
+        List<IngredienteTO> ingredientes = event.getObject().getIngredientes();
+        List<PreparacionTO> preparaciones = event.getObject().getPreparaciones();
+
+        RecipesTO recipesTOInput = new RecipesTO(id, titulo, descripcion, ingredientes, preparaciones);
+
+        if (servicesRecipes.updateReceta(recipesTOInput)) {
+            if (servicesRecipes.updateIngrediente(recipesTOInput)) {
+                if (servicesRecipes.updatePreparacion(recipesTOInput)) {
+                    FacesMessage msg = new FacesMessage("Receta editada correctamente", null);
+                    FacesContext.getCurrentInstance().addMessage(null, msg);
+                } else {
+                    FacesMessage errorPreparacion = new FacesMessage("Error al editar las preparaciones", null);
+                    FacesContext.getCurrentInstance().addMessage(null, errorPreparacion);
+                }
+            } else {
+                FacesMessage errorIngrediente = new FacesMessage("Error al editar el ingrediente", null);
+                FacesContext.getCurrentInstance().addMessage(null, errorIngrediente);
+            }
+        } else {
+            FacesMessage errorReceta = new FacesMessage("Error al editar la receta", null);
+            FacesContext.getCurrentInstance().addMessage(null, errorReceta);
+        }
+    }
+
+    public void onRowCancel(RowEditEvent<UserTO> event) {
+        FacesMessage msg = new FacesMessage("Edicion cancelada", null);
+        FacesContext.getCurrentInstance().addMessage(null, msg);
     }
 
 }

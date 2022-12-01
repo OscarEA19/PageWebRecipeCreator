@@ -24,10 +24,12 @@
                     <p:menuitem value="Mantenimiento de Usuarios" outcome="mantenimientoPersona" icon="pi pi-fw pi-user-edit">
                         <f:param name="i" value="2"/>
                     </p:menuitem>
+                    <p:menuitem value="Mantenimientos de recetas globales" outcome="mantenimientoRecetasAdmin" icon="pi pi-fw pi-user-edit">
+                        <f:param name="i" value="3"/>
+                    </p:menuitem>
                 </c:if>
-
                 <p:menuitem value="Salir" actionListener="#{loginController.goingToLogin()}" icon="pi pi-fw pi-sign-in">
-                    <f:param name="i" value="3"/>
+                    <f:param name="i" value="4"/>
                 </p:menuitem>
             </p:tabMenu> 
         </h:form>
