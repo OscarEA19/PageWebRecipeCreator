@@ -27,22 +27,21 @@ import org.primefaces.PrimeFaces;
 @ManagedBean(name = "loginController")
 @SessionScoped
 public class LoginController implements Serializable {
-
+    
     private String username;
     private String password;
     private UserTO usuarioTO = new UserTO();
     private List<UserTO> listUser = new ArrayList<>();
     private List<RecipesTO> listRecipes = new ArrayList<>();
     private List<RecipesTO> myListRecipes = new ArrayList<>();
-
+    
     public LoginController() {
     }
-
+    
     public LoginController(String username, String password) {
         this.username = username;
         this.password = password;
     }
-
     
     public void ingresar() {
         System.out.println("Username: " + this.username);
@@ -59,7 +58,34 @@ public class LoginController implements Serializable {
             FacesContext.getCurrentInstance().addMessage("sticky-key", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error al hacer login", "El nombre de usuario o la contraseña es invalida"));
         }
     }
-
+    
+    public void refreshPagePersona() {
+        ServicesUser servicioUsuario = new ServicesUser();
+        ServicesRecipes servicioRecipes = new ServicesRecipes();
+        this.listUser = servicioUsuario.listUser();
+        this.listRecipes = servicioRecipes.listAllRecipes();
+        this.myListRecipes = servicioRecipes.listRecipesByUser(usuarioTO);
+        this.redireccionar("/faces/mantenimientoPersona.xhtml");
+    }
+    
+     public void refreshPageRecetas() {
+        ServicesUser servicioUsuario = new ServicesUser();
+        ServicesRecipes servicioRecipes = new ServicesRecipes();
+        this.listUser = servicioUsuario.listUser();
+        this.listRecipes = servicioRecipes.listAllRecipes();
+        this.myListRecipes = servicioRecipes.listRecipesByUser(usuarioTO);
+        this.redireccionar("/faces/mantenimientoRecetas.xhtml");
+    }
+     
+     public void refreshPageRecetasAdmin() {
+        ServicesUser servicioUsuario = new ServicesUser();
+        ServicesRecipes servicioRecipes = new ServicesRecipes();
+        this.listUser = servicioUsuario.listUser();
+        this.listRecipes = servicioRecipes.listAllRecipes();
+        this.myListRecipes = servicioRecipes.listRecipesByUser(usuarioTO);
+        this.redireccionar("/faces/mantenimientoRecetasAdmin.xhtml");
+    }
+    
     public void goingToLogin() {
         if (Objects.nonNull(this.usuarioTO)) {
             ServicesUser servicioUsuario = new ServicesUser();
@@ -69,7 +95,7 @@ public class LoginController implements Serializable {
             FacesContext.getCurrentInstance().addMessage("sticky-key", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Login Failed", "The username and password are invalid"));
         }
     }
-
+    
     public void goingToHome() {
         ServicesUser servicioUsuario = new ServicesUser();
         ServicesRecipes servicioRecipes = new ServicesRecipes();
@@ -78,10 +104,8 @@ public class LoginController implements Serializable {
         this.myListRecipes = servicioRecipes.listRecipesByUser(usuarioTO);
         this.redireccionar("/faces/home.xhtml");
     }
-
-
-
-public static void redireccionar(String ruta) {
+    
+    public static void redireccionar(String ruta) {
         HttpServletRequest request;
         try {
             request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
@@ -89,53 +113,53 @@ public static void redireccionar(String ruta) {
         } catch (Exception e) {
         }
     }
-
+    
     public UserTO getUsuarioTO() {
         return usuarioTO;
     }
-
+    
     public void setUsuarioTO(UserTO usuarioTO) {
         this.usuarioTO = usuarioTO;
     }
-
+    
     public String getUsername() {
         return username;
     }
-
+    
     public void setUsername(String username) {
         this.username = username;
     }
-
+    
     public String getPassword() {
         return password;
     }
-
+    
     public void setPassword(String password) {
         this.password = password;
     }
-
+    
     public List<UserTO> getListUser() {
         return listUser;
     }
-
+    
     public void setListUser(List<UserTO> listUser) {
         this.listUser = listUser;
     }
-
+    
     public List<RecipesTO> getListRecipes() {
         return listRecipes;
     }
-
+    
     public void setListRecipes(List<RecipesTO> listRecipes) {
         this.listRecipes = listRecipes;
     }
-
+    
     public List<RecipesTO> getMyListRecipes() {
         return myListRecipes;
     }
-
+    
     public void setMyListRecipes(List<RecipesTO> myListRecipes) {
         this.myListRecipes = myListRecipes;
     }
-
+    
 }

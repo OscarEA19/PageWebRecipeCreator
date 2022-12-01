@@ -8,6 +8,7 @@
 
     <h:head>
         <title>Inicio</title>
+        <link rel="icon" type="image/x-icon" href="resources/images/favicon.ico" style="width: 20px;height: 20px;"/>
     </h:head>
     <h:body style = "font-family: cursive">
         <h1 style="text-align: center">Bienvenido #{loginController.usuarioTO.username}</h1>    
@@ -24,7 +25,7 @@
                     <p:menuitem value="Mantenimiento de Usuarios" outcome="mantenimientoPersona" icon="pi pi-fw pi-user-edit">
                         <f:param name="i" value="2"/>
                     </p:menuitem>
-                    <p:menuitem value="Mantenimientos de recetas globales" outcome="mantenimientoRecetasAdmin" icon="pi pi-fw pi-user-edit">
+                    <p:menuitem value="Mantenimientos de Recetas Globales" outcome="mantenimientoRecetasAdmin" icon="pi pi-fw pi-book">
                         <f:param name="i" value="3"/>
                     </p:menuitem>
                 </c:if>

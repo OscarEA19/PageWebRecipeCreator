@@ -9,6 +9,7 @@
 
     <h:head>
         <title>MantenimientoRecetas</title>
+        <link rel="icon" type="image/x-icon" href="resources/images/favicon.ico" style="width: 20px;height: 20px;"/>
     </h:head>
 
     <h:body style = "font-family: cursive">
@@ -27,7 +28,7 @@
                     <p:menuitem value="Mantenimiento de Usuarios" outcome="mantenimientoPersona" icon="pi pi-fw pi-user-edit">
                         <f:param name="i" value="2"/>
                     </p:menuitem>
-                    <p:menuitem value="Mantenimientos de recetas globales" outcome="mantenimientoRecetasAdmin" icon="pi pi-fw pi-user-edit">
+                    <p:menuitem value="Mantenimientos de Recetas Globales" outcome="mantenimientoRecetasAdmin" icon="pi pi-fw pi-book">
                         <f:param name="i" value="3"/>
                     </p:menuitem>
                 </c:if>
@@ -44,6 +45,9 @@
                                      update=":dialogs:manage-product-content" oncomplete="PF('manageProductDialog').show()"
                                      styleClass="ui-button-success" style="margin-right: .5rem">
                         <p:resetInput target=":dialogs:manage-product-content" />
+                    </p:commandButton>
+                    <p:commandButton value="Actualizar tabla" icon="pi pi-replay" actionListener="#{loginController.refreshPageRecetas()}"
+                                     styleClass="ui-button-success" style="margin-right: .5rem">
                     </p:commandButton>
                 </p:toolbarGroup>
             </p:toolbar>
@@ -134,8 +138,6 @@
                 <p:column headerText="Creado por:">
                     <h:outputText value="#{recipe.username}" />
                 </p:column>
-
-
 
 
                 <p:column style="width:6rem">

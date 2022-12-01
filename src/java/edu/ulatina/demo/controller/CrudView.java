@@ -7,13 +7,11 @@ package edu.ulatina.demo.controller;
 import Utils.ValidationUtils;
 import edu.ulatina.demo.model.RecipesTO;
 import edu.ulatina.demo.model.UserTO;
-import edu.ulatina.demo.service.ServicesRecipes;
 import edu.ulatina.demo.service.ServicesUser;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
-import org.apache.el.util.Validation;
 import org.primefaces.PrimeFaces;
 import org.primefaces.event.RowEditEvent;
 
@@ -54,6 +52,7 @@ public class CrudView {
         }
         PrimeFaces.current().executeScript("PF('manageProductDialog').hide()");
         PrimeFaces.current().ajax().update("form:messages", "form:dt-products");
+        
     }
 
     public void llenarUser(Integer id, String username, String lastname, String email) {

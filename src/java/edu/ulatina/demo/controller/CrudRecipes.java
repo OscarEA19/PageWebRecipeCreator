@@ -76,9 +76,7 @@ public class CrudRecipes {
                 for (String paso : preparaciones) {
                     servicesRecipes.insertPreparaciones(new PreparacionTO(paso, title, idUser));
                 }
-
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Recipe Added Success"));
-                loginController.goingToHome();
             } else {
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Recipe Added Failed, please try again"));
             }
