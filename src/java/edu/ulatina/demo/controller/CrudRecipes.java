@@ -13,6 +13,7 @@ import edu.ulatina.demo.service.ServicesUser;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.File;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 import javax.faces.application.FacesMessage;
@@ -21,6 +22,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.imageio.ImageIO;
 import org.primefaces.PrimeFaces;
+import org.primefaces.event.RateEvent;
 import org.primefaces.event.RowEditEvent;
 import org.primefaces.model.file.UploadedFile;
 
@@ -35,6 +37,10 @@ public class CrudRecipes {
     private RecipesTO recipesTO;
     private RecipesTO informatioRecipes;
     private List<RecipesTO> myRecipesList = new ArrayList<>();
+    private List<String> ingredientes;
+    private List<String> preparaciones;
+    private String ingrediente;
+    private String preparacion;
 
     public CrudRecipes() {
         this.recipesTO = new RecipesTO();
@@ -50,7 +56,7 @@ public class CrudRecipes {
 
     }
 
-    public void save(Integer idUser, List<String> ingredientes, List<String> preparaciones, String title, UploadedFile file, byte[] image) {
+    public void save(Integer idUser, List<String> ingredientes, List<String> preparaciones, String title, UploadedFile file, byte[] image, RecipesController recipesController) {
         try {
             ServicesRecipes servicesRecipes = new ServicesRecipes();
 
@@ -76,18 +82,25 @@ public class CrudRecipes {
                 for (String paso : preparaciones) {
                     servicesRecipes.insertPreparaciones(new PreparacionTO(paso, title, idUser));
                 }
+                recipesController.setIngredientes(new ArrayList<>());
+                recipesController.setPreparaciones(new ArrayList<>());
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Recipe Added Success"));
             } else {
+                recipesController.setIngredientes(new ArrayList<>());
+                recipesController.setPreparaciones(new ArrayList<>());
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Recipe Added Failed, please try again"));
             }
             PrimeFaces.current().executeScript("PF('manageProductDialog').hide()");
             PrimeFaces.current().ajax().update("form:messages", "form:dt-products");
+
         } catch (Exception e) {
             e.printStackTrace();
+            recipesController.setIngredientes(new ArrayList<>());
+            recipesController.setPreparaciones(new ArrayList<>());
         }
     }
 
-    public void delete(Integer id) {
+    public void delete(Integer id) throws Exception {
         ServicesRecipes servicesRecipes = new ServicesRecipes();
         if (servicesRecipes.eliminar(id)) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Receta eliminada correctamente"));
@@ -96,6 +109,9 @@ public class CrudRecipes {
         }
         PrimeFaces.current().executeScript("PF('manageProductDialog').hide()");
         PrimeFaces.current().ajax().update("form:messages", "form:dt-products");
+        
+        LoginController loginController = new LoginController();
+        loginController.refreshPageRecetas();
     }
 
     public RecipesTO getRecipesTO() {
@@ -158,4 +174,45 @@ public class CrudRecipes {
         FacesContext.getCurrentInstance().addMessage(null, msg);
     }
 
+    public List<String> getIngredientes() {
+        return ingredientes;
+    }
+
+    public void setIngredientes(List<String> ingredientes) {
+        this.ingredientes = ingredientes;
+    }
+
+    public List<String> getPreparaciones() {
+        return preparaciones;
+    }
+
+    public void setPreparaciones(List<String> preparaciones) {
+        this.preparaciones = preparaciones;
+    }
+
+    public void addPreparacion(String preparacion) {
+        this.preparaciones.add(preparacion);
+    }
+
+    public void addIngredientes(String ingrediente) {
+        this.ingredientes.add(ingrediente);
+    }
+
+    public String getIngrediente() {
+        return ingrediente;
+    }
+
+    public void setIngrediente(String ingrediente) {
+        this.ingrediente = ingrediente;
+    }
+
+    public String getPreparacion() {
+        return preparacion;
+    }
+
+    public void setPreparacion(String preparacion) {
+        this.preparacion = preparacion;
+    }
+
+    
 }

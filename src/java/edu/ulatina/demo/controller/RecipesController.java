@@ -42,6 +42,13 @@ public class RecipesController implements Serializable {
         this.ingredientes = new ArrayList<>();
         this.preparaciones = new ArrayList<>();
     }
+    
+    public void cleanList(){
+        this.ingrediente = null;
+        this.preparacion = null;
+        this.ingredientes = new ArrayList<>();
+        this.preparaciones = new ArrayList<>();
+    }
 
     public void newinformacionReceta() {
 

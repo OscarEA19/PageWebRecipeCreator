@@ -9,7 +9,7 @@
 
     <h:head>
         <title>MantenimientoRecetas</title>
-        <link rel="icon" type="image/x-icon" href="resources/images/favicon.ico" style="width: 20px;height: 20px;"/>
+        <link rel="icon" type="image/x-icon" href="resources/images/favicon (2).ico" style="width: 20px;height: 20px;"/>
     </h:head>
 
     <h:body style = "font-family: cursive">
@@ -46,9 +46,6 @@
                                      styleClass="ui-button-success" style="margin-right: .5rem">
                         <p:resetInput target=":dialogs:manage-product-content" />
                     </p:commandButton>
-                    <p:commandButton value="Actualizar tabla" icon="pi pi-replay" actionListener="#{loginController.refreshPageRecetas()}"
-                                     styleClass="ui-button-success" style="margin-right: .5rem">
-                    </p:commandButton>
                 </p:toolbarGroup>
             </p:toolbar>
 
@@ -60,10 +57,6 @@
 
 
                 <f:facet name="header">Mi lista de recetas</f:facet>
-
-                <p:column headerText="Identificador" >
-                    <h:outputText value="#{recipe.id}" />
-                </p:column>
 
                 <p:column headerText="Imagen" >
                     <h:graphicImage library="images" name="#{recipe.imgPath}" style="width: 70px; height: 70px"/>
@@ -135,6 +128,12 @@
                     <h:outputText value="#{ingredientesList.ingrediente}" />
                 </p:repeat>
 
+                <p:column headerText="Calificaciones">
+                    <h:form>
+                        <p:rating value="#{recipe.ratingStar}" readonly="true"/>
+                    </h:form>
+                </p:column>
+
                 <p:column headerText="Creado por:">
                     <h:outputText value="#{recipe.username}" />
                 </p:column>
@@ -154,8 +153,8 @@
                     <p:confirmDialog widgetVar="deleteProductDialog" showEffect="fade" width="300"
                                      message="Desea borrar la receta?" header="Confirmar" severity="warn">
                         <p:commandButton value="Si" icon="pi pi-check" 
-                                         process="@this" actionListener="#{crudRecipes.delete(recipe.id)}" 
-                                         oncomplete="PF('deleteProductDialog').hide()" />
+                                         process="@this" actionListener="#{loginController.delete(recipe.id)}" 
+                                         oncomplete="PF('deleteProductDialog').hide()" update="products1"/>
                         <p:commandButton value="No" type="button" styleClass="ui-button-secondary" icon="pi pi-times"
                                          onclick="PF('deleteProductDialog').hide()" />
                     </p:confirmDialog>
@@ -189,7 +188,6 @@
                         </div>
 
                         <p:outputLabel  style="font-size: 15px; margin-top: 10px">Para agregar la prepracion presione el boton (una prepracion a la vez)</p:outputLabel>
-
                         <div class="col-12 md:col-4" style="margin-top: 10px">
                             <div class="ui-inputgroup">
                                 <p:inputText  placeholder="Preparación"  value="#{recipesController.preparacion}"/>
@@ -210,16 +208,14 @@
                     </p:outputPanel>
                 </p:outputPanel>
                 <f:facet name="footer">
-                    <p:commandButton value="Guardar" icon="pi pi-check" actionListener="#{crudRecipes.save(loginController.usuarioTO.id,recipesController.ingredientes,recipesController.preparaciones,crudRecipes.recipesTO.title,recipesController.file,recipesController.imagenArray)}" update="manage-product-content" process="manage-product-content @this" />
+                    <p:commandButton value="Guardar" icon="pi pi-check" actionListener="#{loginController.save(loginController.usuarioTO.id,recipesController.ingredientes,recipesController.preparaciones,crudRecipes.recipesTO.title,crudRecipes.recipesTO.description,recipesController.file,recipesController.imagenArray,recipesController)}" update="manage-product-content" process="manage-product-content @this" />
                     <p:commandButton value="Cancelar" icon="pi pi-times" onclick="PF('manageProductDialog').hide()" class="ui-button-secondary" type="button" />
                 </f:facet>
             </p:dialog>
-
             <p:confirmDialog global="true" showEffect="fade" width="300">
                 <p:commandButton value="Si" type="button" styleClass="ui-confirmdialog-yes" icon="pi pi-check" />
                 <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no ui-button-secondary" icon="pi pi-times" />
             </p:confirmDialog>
-
         </h:form>
     </h:body>
 </html>

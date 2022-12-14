@@ -6,7 +6,7 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core">
     <h:head>
         <title>Login</title>
-        <link rel="icon" type="image/x-icon" href="resources/images/favicon.ico" style="width: 20px;height: 20px;"/>
+        <link rel="icon" type="image/x-icon" href="resources/images/favicon (2).ico" style="width: 20px;height: 20px;"/>
     </h:head>
 
     <script type="text/javascript">
@@ -15,24 +15,18 @@
         }
     </script>
 
-    <h:body style = "background-image: url('resources/images/bg-login.jpg');
+    <h:body style = "background-image: url('resources/images/background .jpg');
             background-repeat: no-repeat; background-size: 100% 100%;
             height: 95vh;">
         <h1 style="text-align: center;
-            font-size: 50px;
+            font-size: 70px;
             color: #ffffff;
             font-family: cursive;"
-            >Bienvenido a lineas de cocción;</h1>
+            ></h1>
 
         <div style="text-align: center;
-             padding-top: 120px;
-             text-align: -webkit-center;
-
-             ">
-            <h:form style="text-align: -webkit-center;
-                    width: auto;
-                    height: auto;
-                    ">
+             padding-top: 250px; margin-left: 1100px">
+            <h:form>
                 <p:growl id="mensaje" showDetail="true" life="700" />
                 <p:growl id="growl" sticky="true" showDetail="true" life="3000" />
                 <p:panelGrid columns="1" style="text-align: center;" >
@@ -62,7 +56,7 @@
                         <p:inputText id="email" value="#{crudView.usuarioTO.email}" label="email" />
                         <div style="text-align: center">
                             <f:facet name="footer" >
-                                <p:commandButton value="Registrase" update="growl" action="#{crudView.save()}" oncomplete="handleLoginRequest(xhr, status, args)"/>                               
+                                <p:commandButton value="Registrarse" update="growl" action="#{crudView.save()}" oncomplete="handleLoginRequest(xhr, status, args)"/>                               
                             </f:facet> 
                         </div>
                     </h:panelGrid>

@@ -8,7 +8,7 @@
 
     <h:head>
         <title>Inicio</title>
-        <link rel="icon" type="image/x-icon" href="resources/images/favicon.ico" style="width: 20px;height: 20px;"/>
+        <link rel="icon" type="image/x-icon" href="resources/images/favicon (2).ico" style="width: 20px;height: 20px;"/>
     </h:head>
     <h:body style = "font-family: cursive">
         <h1 style="text-align: center">Bienvenido #{loginController.usuarioTO.username}</h1>    
@@ -35,54 +35,65 @@
             </p:tabMenu> 
         </h:form>
 
+        <h:form>
+            <div style="margin: 50px 50px 20px 50px; display: flex; flex-wrap: wrap; text-align: center">
+                <p:repeat value="#{loginController.listRecipes}" var="recipes">
+                    <p:card style="width: 20em; margin-bottom: 10px;margin-right: 10px; background-color: #ECECEC " class="ui-grid ui-grid-responsive">
+                        
+                       <f:facet name="header">
+                            <h:graphicImage library="images" name="#{recipes.imgPath}"/>
+                        </f:facet>
+                        <f:facet name="title">
+                            #{recipes.title}
+                        </f:facet>
+
+                        <f:facet name="subtitle">
+                            <p>#{recipes.description}</p>
+                        </f:facet>
+
+                        <p:growl id="messages" showDetail="true"/>
+                        <p:rating value="#{ratingView.rating2}" style="margin-bottom: 20px">
+                            <f:attribute name="idReceta" value="#{recipes.id}" />
+                            <p:ajax event="rate" listener="#{loginController.onrate}"  update="messages"/>
+                            <p:ajax event="cancel" listener="#{ratingView.oncancel}" update="messages"/>
+                        </p:rating>
 
 
-        <div style="margin: 50px 50px 20px 50px; display: flex; flex-wrap: wrap; text-align: center">
-            <p:repeat value="#{loginController.listRecipes}" var="recipes">
-                <p:card style="width: 20em; margin-bottom: 10px;margin-right: 10px; background-color: #ECECEC " class="ui-grid ui-grid-responsive" >
-                    <f:facet name="header">
-                        <h:graphicImage library="images" name="#{recipes.imgPath}"/>
-                    </f:facet>
-                    <f:facet name="title">
-                        #{recipes.title}
-                    </f:facet>
+                        <c:set var="idReceta" value="#{recipes.id}"/>
+                        <p:accordionPanel activeIndex="-2" multiple="true">
+                            <p:tab title="Ver ingredientes">
+                                <h:panelGrid columns="1" cellpadding="5">
+                                    <p:repeat value="#{recipes.ingredientes}" var ="ingredientesList">
+                                        <div>
+                                            <h4>-  #{ingredientesList.ingrediente}</h4>
+                                        </div>                                    
+                                    </p:repeat>
+                                </h:panelGrid>
+                            </p:tab>
+                            <p:tab title="Ver preparación" >
+                                <h:panelGrid columns="1" cellpadding="5">
+                                    <p:repeat value="#{recipes.preparaciones}" var ="preparacionesList">
+                                        <div>
+                                            <h4>-  #{preparacionesList.paso}</h4>
+                                        </div> 
+                                    </p:repeat>
+                                </h:panelGrid>
+                            </p:tab>
+                            <p:tab title="Calificación">
+                                <h:panelGrid columns="1" cellpadding="5">
+                                    <p:rating value="#{recipes.ratingStar}" readonly="true"/>
+                                </h:panelGrid>
+                            </p:tab>
+                        </p:accordionPanel>
 
-                    <f:facet name="subtitle">
-                        <p>#{recipes.description}</p>
-                    </f:facet>
+                        <f:facet name="footer">
+                            <p>Creado por: #{recipes.username}</p>
+                        </f:facet>
+                    </p:card>
+                </p:repeat>
+            </div>   
+        </h:form>
+    </h:body>    
 
-                    <c:set var="idReceta" value="#{recipes.id}"/>
-
-                    <p:accordionPanel activeIndex="-2" multiple="true">
-                        <p:tab title="Ver ingredientes">
-                            <h:panelGrid columns="1" cellpadding="5">
-                                <p:repeat value="#{recipes.ingredientes}" var ="ingredientesList">
-                                    <div>
-                                        <h4>-  #{ingredientesList.ingrediente}</h4>
-                                    </div>                                    
-                                </p:repeat>
-                            </h:panelGrid>
-                        </p:tab>
-                        <p:tab title="Ver preparación" >
-                            <h:panelGrid columns="1" cellpadding="5">
-                                <p:repeat value="#{recipes.preparaciones}" var ="preparacionesList">
-                                    <div>
-                                        <h4>-  #{preparacionesList.paso}</h4>
-                                    </div> 
-                                </p:repeat>
-                            </h:panelGrid>
-                        </p:tab>
-                    </p:accordionPanel>
-
-                    <f:facet name="footer">
-                        <p>Creado por: #{recipes.username}</p>
-                    </f:facet>
-                </p:card>
-            </p:repeat>
-        </div>
-
-
-
-    </h:body>
 </html>
 

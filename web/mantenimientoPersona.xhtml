@@ -8,7 +8,7 @@
 
     <h:head>
         <title>Mantenimientos de usuarios</title>
-        <link rel="icon" type="image/x-icon" href="resources/images/favicon.ico" style="width: 20px;height: 20px;"/>
+        <link rel="icon" type="image/x-icon" href="resources/images/favicon (2).ico" style="width: 20px;height: 20px;"/>
     </h:head>
     <h:body style = "font-family: cursive">
         <h1 style="text-align: center">Mantenimiento de Personas</h1>    
@@ -43,10 +43,6 @@
                                      styleClass="ui-button-success" style="margin-right: .5rem">
                         <p:resetInput target=":dialogs:manage-product-content" />
                     </p:commandButton>
-
-                    <p:commandButton value="Actualizar tabla" icon="pi pi-replay" actionListener="#{loginController.refreshPagePersona()}"
-                                     styleClass="ui-button-success" style="margin-right: .5rem">
-                    </p:commandButton>
                 </p:toolbarGroup>
             </p:toolbar>
 
@@ -57,11 +53,7 @@
                 <p:ajax event="rowEditCancel" listener="#{crudView.onRowCancel}" update=":form:msgs"/>
 
                 <f:facet name="header">Lista de usuarios</f:facet>
-
-                <p:column headerText="ID" >
-                    <h:outputText value="#{user.id}" />
-                </p:column>
-
+                
                 <p:column headerText="Nombre">
                     <p:cellEditor>
                         <f:facet name="output">
@@ -112,7 +104,7 @@
                     <p:confirmDialog widgetVar="deleteProductDialog" showEffect="fade" width="300"
                                      message="Desea borrar el usuario?" header="Confirmar" severity="warn">
                         <p:commandButton value="Si" icon="pi pi-check" 
-                                         process="@this" actionListener="#{crudView.delete(user.id)}" 
+                                         process="@this" actionListener="#{loginController.deleteUser(user.id)}" 
                                          oncomplete="PF('deleteProductDialog').hide()" />
                         <p:commandButton value="No" type="button" styleClass="ui-button-secondary" icon="pi pi-times"
                                          onclick="PF('deleteProductDialog').hide()" />
@@ -149,7 +141,7 @@
                     </p:outputPanel>
                 </p:outputPanel>
                 <f:facet name="footer">
-                    <p:commandButton value="Guardar" icon="pi pi-check" actionListener="#{crudView.save}" update="manage-product-content" process="manage-product-content @this"/>
+                    <p:commandButton value="Guardar" icon="pi pi-check" actionListener="#{loginController.saveUser(crudView.usuarioTO)}" update="manage-product-content" process="manage-product-content @this"/>
                     <p:commandButton value="Cancelar" icon="pi pi-times" onclick="PF('manageProductDialog').hide()" class="ui-button-secondary" type="button" />
                 </f:facet>
             </p:dialog>
@@ -186,17 +178,11 @@
                     <p:commandButton value="Cancelar" icon="pi pi-times" onclick="PF('manageUser').hide()" class="ui-button-secondary" type="button" />
                 </f:facet>
             </p:dialog>
-
             <p:confirmDialog global="true" showEffect="fade" width="300">
                 <p:commandButton value="Si" type="button" styleClass="ui-confirmdialog-yes" icon="pi pi-check" />
                 <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no ui-button-secondary" icon="pi pi-times" />
             </p:confirmDialog>
         </h:form>
-
-
-
-
-
     </h:body>
 </html>
 
