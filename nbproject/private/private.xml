@@ -4,16 +4,17 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/C:/Users/Espin/OneDrive/Documents/NetBeansProjects/proyectoProgra4/src/java/edu/ulatina/demo/model/RecipesTO.java</file>
-            <file>file:/C:/Users/Espin/OneDrive/Documents/NetBeansProjects/proyectoProgra4/src/java/edu/ulatina/demo/service/ServicesUser.java</file>
             <file>file:/C:/Users/Espin/OneDrive/Documents/NetBeansProjects/proyectoProgra4/src/java/edu/ulatina/demo/controller/RatingView.java</file>
             <file>file:/C:/Users/Espin/OneDrive/Documents/NetBeansProjects/proyectoProgra4/web/mantenimientoRecetas.xhtml</file>
-            <file>file:/C:/Users/Espin/OneDrive/Documents/NetBeansProjects/proyectoProgra4/web/mantenimientoPersona.xhtml</file>
             <file>file:/C:/Users/Espin/OneDrive/Documents/NetBeansProjects/proyectoProgra4/web/mantenimientoRecetasAdmin.xhtml</file>
             <file>file:/C:/Users/Espin/OneDrive/Documents/NetBeansProjects/proyectoProgra4/src/java/edu/ulatina/demo/service/ServicesRecipes.java</file>
-            <file>file:/C:/Users/Espin/OneDrive/Documents/NetBeansProjects/proyectoProgra4/web/home.xhtml</file>
-            <file>file:/C:/Users/Espin/OneDrive/Documents/NetBeansProjects/proyectoProgra4/src/java/edu/ulatina/demo/controller/CrudRecipes.java</file>
             <file>file:/C:/Users/Espin/OneDrive/Documents/NetBeansProjects/proyectoProgra4/src/java/edu/ulatina/demo/controller/RecipesController.java</file>
             <file>file:/C:/Users/Espin/OneDrive/Documents/NetBeansProjects/proyectoProgra4/web/index.xhtml</file>
+            <file>file:/C:/Users/Espin/OneDrive/Documents/NetBeansProjects/proyectoProgra4/src/java/edu/ulatina/demo/controller/CrudView.java</file>
+            <file>file:/C:/Users/Espin/OneDrive/Documents/NetBeansProjects/proyectoProgra4/src/java/edu/ulatina/demo/service/ServicesUser.java</file>
+            <file>file:/C:/Users/Espin/OneDrive/Documents/NetBeansProjects/proyectoProgra4/web/mantenimientoPersona.xhtml</file>
+            <file>file:/C:/Users/Espin/OneDrive/Documents/NetBeansProjects/proyectoProgra4/web/home.xhtml</file>
+            <file>file:/C:/Users/Espin/OneDrive/Documents/NetBeansProjects/proyectoProgra4/src/java/edu/ulatina/demo/controller/CrudRecipes.java</file>
             <file>file:/C:/Users/Espin/OneDrive/Documents/NetBeansProjects/proyectoProgra4/src/java/edu/ulatina/demo/controller/LoginController.java</file>
         </group>
     </open-files>

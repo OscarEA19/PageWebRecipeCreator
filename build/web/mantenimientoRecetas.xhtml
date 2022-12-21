@@ -175,25 +175,11 @@
 
                         <div class="field">
                             <p:outputLabel for="description">Descripcion: </p:outputLabel>
-                            <p:inputTextarea id="description" value="#{crudRecipes.recipesTO.description}" />
+                            <p:inputTextarea id="description" value="#{crudRecipes.recipesTO.description}"/>
                         </div>
 
-                        <p:outputLabel style="font-size: 15px; margin-top: 10px">Para agregar el ingrediente presione el boton (un ingrediente a la vez)</p:outputLabel>
-
-                        <div class="col-12 md:col-4" style="margin-top: 10px">
-                            <div class="ui-inputgroup">
-                                <p:inputText placeholder="Ingredientes" id="inputs" value="#{recipesController.ingrediente}"/>
-                                <p:commandButton icon="pi pi-check" styleClass="ui-button-success" actionListener="#{recipesController.addIngredientes(recipesController.ingrediente)}"/>
-                            </div>
-                        </div>
-
-                        <p:outputLabel  style="font-size: 15px; margin-top: 10px">Para agregar la prepracion presione el boton (una prepracion a la vez)</p:outputLabel>
-                        <div class="col-12 md:col-4" style="margin-top: 10px">
-                            <div class="ui-inputgroup">
-                                <p:inputText  placeholder="Preparación"  value="#{recipesController.preparacion}"/>
-                                <p:commandButton icon="pi pi-check" styleClass="ui-button-success" actionListener="#{recipesController.addPreparacion(recipesController.preparacion)}"/>
-                            </div>
-                        </div>
+                        <p:chips id="ingredientes" value="#{recipesController.ingredientes}" style="margin-top: 10px"/> 
+                        <p:chips id="preparaciones" value="#{recipesController.preparaciones}" style="margin-top: 10px"/> 
 
                         <div class="card">
                             <h5>Imagen de la receta</h5>
