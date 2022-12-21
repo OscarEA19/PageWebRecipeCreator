@@ -10,10 +10,11 @@
     <h:head>
         <title>MantenimientoRecetas</title>
         <link rel="icon" type="image/x-icon" href="resources/images/favicon (2).ico" style="width: 20px;height: 20px;"/>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
     </h:head>
 
     <h:body style = "font-family: cursive">
-        <h1 style="text-align: center">Mantenimiento de mis Recetas</h1>    
+        <div class="animate__animated animate__fadeInDown"><h1 style="text-align: center">Mantenimiento de mis Recetas</h1></div>
         <h:form id="form">
             <p:growl id="msgs" showDetail="true"/>
 
@@ -58,14 +59,14 @@
 
                 <f:facet name="header">Mi lista de recetas</f:facet>
 
-                <p:column headerText="Imagen" >
-                    <h:graphicImage library="images" name="#{recipe.imgPath}" style="width: 70px; height: 70px"/>
+                <p:column headerText="Imagen" style="background-color: #ECECEC" class="animate__animated animate__fadeInDown" >
+                    <h:graphicImage library="images" name="#{recipe.imgPath}" style="width: 100%; border-radius: 10px;"/>
                 </p:column>
 
-                <p:column headerText="Titulo">
+                <p:column headerText="Titulo"  style="background-color: #ECECEC; text-align: center; font: bold" class="animate__animated animate__fadeInDown">
                     <p:cellEditor>
-                        <f:facet name="output">
-                            <h:outputText value="#{recipe.title}"/>
+                        <f:facet name="output" >
+                            <h:outputText value="#{recipe.title}" style = "font-family: cursive"/>
                         </f:facet>
                         <f:facet name="input">
                             <p:inputText id="modelInput4" value="#{recipe.title}" style="width:100%"/>
@@ -73,11 +74,10 @@
                     </p:cellEditor>
                 </p:column>
 
-
-                <p:column headerText="Descripcion">
+                <p:column headerText="Descripcion" style="background-color: #ECECEC" class="animate__animated animate__fadeInDown">
                     <p:cellEditor>
                         <f:facet name="output">
-                            <h:outputText value="#{recipe.description}"/>
+                            <h:outputText value="#{recipe.description}" style = "font-family: cursive"/>
                         </f:facet>
                         <f:facet name="input">
                             <p:inputText id="modelInput3" value="#{recipe.description}" style="width:100%"/>
@@ -85,14 +85,14 @@
                     </p:cellEditor>
                 </p:column>
 
-                <p:column headerText="Ingredientes">
+                <p:column headerText="Ingredientes" style="background-color: #ECECEC" class="animate__animated animate__fadeInDown">
                     <p:accordionPanel activeIndex="-2" multiple="true">
                         <p:tab title="Ingredientes">
                             <h:panelGrid columns="1" cellpadding="5">
                                 <p:repeat value="#{recipe.ingredientes}" var ="ingredientesList">
                                     <p:cellEditor>
                                         <f:facet name="output">
-                                            <h:outputText value="#{ingredientesList.ingrediente}"/>
+                                            <h:outputText value="#{ingredientesList.ingrediente}"  style = "font-family: cursive"/>
                                         </f:facet>
                                         <f:facet name="input">
                                             <p:inputText id="modelInput" value="#{ingredientesList.ingrediente}" style="width:100%"/>
@@ -104,14 +104,14 @@
                     </p:accordionPanel>
                 </p:column>
 
-                <p:column headerText="Preparaciones">
+                <p:column headerText="Preparaciones" style="background-color: #ECECEC" class="animate__animated animate__fadeInDown">
                     <p:accordionPanel activeIndex="-2" multiple="true">
                         <p:tab title="Preparación">
                             <h:panelGrid columns="1" cellpadding="5">
                                 <p:repeat value="#{recipe.preparaciones}" var ="preparacionList">
                                     <p:cellEditor>
                                         <f:facet name="output">
-                                            <h:outputText value="#{preparacionList.paso}"/>
+                                            <h:outputText value="#{preparacionList.paso}"  style = "font-family: cursive"/>
                                         </f:facet>
                                         <f:facet name="input">
                                             <p:inputText id="modelInput1" value="#{preparacionList.paso}" style="width:100%"/>
@@ -124,26 +124,26 @@
                 </p:column>
 
 
-                <p:repeat value="#{recipes.ingredientes}" var ="ingredientesList">
-                    <h:outputText value="#{ingredientesList.ingrediente}" />
+                <p:repeat value="#{recipes.ingredientes}" var ="ingredientesList" >
+                    <h:outputText value="#{ingredientesList.ingrediente}" style = "font-family: cursive"/>
                 </p:repeat>
 
-                <p:column headerText="Calificaciones">
+                <p:column headerText="Calificaciones"  style="background-color: #ECECEC"  class="animate__animated animate__fadeInDown">
                     <h:form>
                         <p:rating value="#{recipe.ratingStar}" readonly="true"/>
                     </h:form>
                 </p:column>
 
-                <p:column headerText="Creado por:">
-                    <h:outputText value="#{recipe.username}" />
+                <p:column headerText="Creado por:" style="background-color: #ECECEC" class="animate__animated animate__fadeInDown">
+                    <h:outputText value="#{recipe.username}" style = "font-family: cursive"/>
                 </p:column>
 
 
-                <p:column style="width:6rem">
+                <p:column style="width:6rem; background-color: #ECECEC"  class="animate__animated animate__fadeInDown">
                     <p:rowEditor editTitle="Edit Row" cancelTitle="Cancel Edit" saveTitle="Save Row"/>
                 </p:column>
 
-                <p:column exportable="false">
+                <p:column exportable="false" style="background-color: #ECECEC" class="animate__animated animate__fadeInDown">
 
                     <p:commandButton class="ui-button-warning rounded-button" icon="pi pi-trash"
                                      process="@this" 
@@ -175,11 +175,13 @@
 
                         <div class="field">
                             <p:outputLabel for="description">Descripcion: </p:outputLabel>
-                            <p:inputTextarea id="description" value="#{crudRecipes.recipesTO.description}"/>
+                            <p:inputTextarea id="description" value="#{crudRecipes.recipesTO.description}" />
                         </div>
 
-                        <p:chips id="ingredientes" value="#{recipesController.ingredientes}" style="margin-top: 10px"/> 
-                        <p:chips id="preparaciones" value="#{recipesController.preparaciones}" style="margin-top: 10px"/> 
+                      <p:chips id="ingredientes" value="#{recipesController.ingredientes}" style="margin-top: 10px"/>
+                        <p:chips id="preparaciones" value="#{recipesController.preparaciones}" style="margin-top: 10px"/>
+                        <!--Search in google, how i can save this data at a list (PrimeFacesChips)-->
+                        
 
                         <div class="card">
                             <h5>Imagen de la receta</h5>

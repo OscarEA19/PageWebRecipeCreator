@@ -9,9 +9,11 @@
     <h:head>
         <title>Mantenimientos de usuarios</title>
         <link rel="icon" type="image/x-icon" href="resources/images/favicon (2).ico" style="width: 20px;height: 20px;"/>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+
     </h:head>
     <h:body style = "font-family: cursive">
-        <h1 style="text-align: center">Mantenimiento de Personas</h1>    
+        <h1 style="text-align: center" class="animate__animated animate__fadeInDown">Mantenimiento de Personas</h1>    
 
         <h:form id="form" >
             <p:growl id="msgs" showDetail="true"/>
@@ -53,7 +55,7 @@
                 <p:ajax event="rowEditCancel" listener="#{crudView.onRowCancel}" update=":form:msgs"/>
 
                 <f:facet name="header">Lista de usuarios</f:facet>
-                
+
                 <p:column headerText="Nombre">
                     <p:cellEditor>
                         <f:facet name="output">

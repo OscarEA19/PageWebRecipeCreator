@@ -207,7 +207,7 @@ public class LoginController implements Serializable {
     }
 
     public void save(Integer idUser, List<String> ingredientes, List<String> preparaciones, String title, String descrip, UploadedFile file, byte[] image, RecipesController recipesController) {
-        try {                
+        try {               
             ServicesRecipes servicesRecipes = new ServicesRecipes();
 
             //First get image and save at resorces/images/fileName.format

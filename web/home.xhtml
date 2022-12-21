@@ -9,9 +9,11 @@
     <h:head>
         <title>Inicio</title>
         <link rel="icon" type="image/x-icon" href="resources/images/favicon (2).ico" style="width: 20px;height: 20px;"/>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+
     </h:head>
     <h:body style = "font-family: cursive">
-        <h1 style="text-align: center">Bienvenido #{loginController.usuarioTO.username}</h1>    
+        <h1 style="text-align: center" class="animate__animated animate__fadeInDown">Bienvenido #{loginController.usuarioTO.username}</h1>    
 
         <h:form id="form" >
             <p:tabMenu activeIndex="#{param.i}">
@@ -38,17 +40,16 @@
         <h:form>
             <div style="margin: 50px 50px 20px 50px; display: flex; flex-wrap: wrap; text-align: center">
                 <p:repeat value="#{loginController.listRecipes}" var="recipes">
-                    <p:card style="width: 20em; margin-bottom: 10px;margin-right: 10px; background-color: #ECECEC " class="ui-grid ui-grid-responsive">
-                        
-                       <f:facet name="header">
+                    <p:card style="width: 20em; margin-bottom: 10px;margin-right: 10px; background-color: #ECECEC " class="ui-grid ui-grid-responsive animate__animated animate__flipInY">
+                        <f:facet name="header">
                             <h:graphicImage library="images" name="#{recipes.imgPath}"/>
                         </f:facet>
                         <f:facet name="title">
-                            #{recipes.title}
+                            <p style = "font-family: cursive">#{recipes.title}</p>
                         </f:facet>
 
                         <f:facet name="subtitle">
-                            <p>#{recipes.description}</p>
+                            <p style = "font-family: cursive">#{recipes.description} </p>
                         </f:facet>
 
                         <p:growl id="messages" showDetail="true"/>
@@ -65,7 +66,7 @@
                                 <h:panelGrid columns="1" cellpadding="5">
                                     <p:repeat value="#{recipes.ingredientes}" var ="ingredientesList">
                                         <div>
-                                            <h4>-  #{ingredientesList.ingrediente}</h4>
+                                            <h4 style = "font-family: cursive">-  #{ingredientesList.ingrediente}</h4>
                                         </div>                                    
                                     </p:repeat>
                                 </h:panelGrid>
@@ -74,7 +75,7 @@
                                 <h:panelGrid columns="1" cellpadding="5">
                                     <p:repeat value="#{recipes.preparaciones}" var ="preparacionesList">
                                         <div>
-                                            <h4>-  #{preparacionesList.paso}</h4>
+                                            <h4 style = "font-family: cursive">-  #{preparacionesList.paso}</h4>
                                         </div> 
                                     </p:repeat>
                                 </h:panelGrid>
@@ -87,7 +88,7 @@
                         </p:accordionPanel>
 
                         <f:facet name="footer">
-                            <p>Creado por: #{recipes.username}</p>
+                            <p style = "font-family: cursive">Creado por: #{recipes.username}</p>
                         </f:facet>
                     </p:card>
                 </p:repeat>
